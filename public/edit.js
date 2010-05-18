@@ -2,7 +2,9 @@
 document.onload = loadPage();
 
 var data;
-var editline_now;
+var editline_now = null;
+
+var KC = { tab:9, enter:13, left:37, up:38, right:39, down:40};
 
 function loadPage(){
     var url = location.href+".json";
@@ -24,6 +26,7 @@ function display(){
 	var line = data.lines[i];
 	edit_html += '<li class="line" id="line' + i + '">' + line + '</li>';
 	$('li#line'+i).die('click');
+	//$('li#line'+i).die('keypress');
 	new function(i){
 	    $('li#line'+i).live('click', function(){
 		    editline(i);
@@ -38,5 +41,10 @@ function editline(num){
     line = $('li#line'+num);
     line.html('<input type="text" id="line'+num+'" size="30" value="'+line.html()+'">');
     line.die('click');
+    $('input#line'+num).keypress(function(e){
+	if(e.keyCode == KC.enter){
+	    display();
+	}
+	});
     editline_now = num;
 };
