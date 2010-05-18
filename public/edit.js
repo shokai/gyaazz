@@ -1,5 +1,5 @@
 
-document.onload = loadPage(location.href+".json");
+document.onload = loadPage();
 
 var data;
 
@@ -18,7 +18,19 @@ function display(){
     var edit_html = '';
     for(var i = 0; i < data.lines.length; i++){
 	var line = data.lines[i];
-	edit_html += '<li class="line" id="'+i+'">' + line + '</li>'
+	edit_html += '<li class="line" id="line' + i + '">' + line + '</li>';
     }
-    $('#edit').html('<ul>'+edit_html+'</ul>');
+    $('#edit').html('<ul>' + edit_html + '</ul>');
+    for(var i = 0; i < data.lines.length; i++){
+	new function(i){
+	    $('#line'+i).click(function(e){
+		    alert("click"+i);
+		});
+	}(i);
+    }
+    
+};
+
+function editline(num){
+    $('#line'+i)
 };

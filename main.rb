@@ -33,7 +33,7 @@ end
 get '*.json' do
   db_open(params[:splat])
   if @pages.keys.size < 1
-    @mes = {'lines' => ["(empty)"]}.to_json
+    @mes = {'lines' => ["(empty)","2","3"]}.to_json
   else
     key = @pages.keys.last
     @mes = @pages[key].to_json
