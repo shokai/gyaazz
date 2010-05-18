@@ -16,6 +16,9 @@ function savePage(){
 };
 
 function display(){
+    if(editline_now != null){
+	data.lines[editline_now] = $('input#line'+editline_now).val();
+    }
     edit_html = ''
     for(var i = 0; i < data.lines.length; i++){
 	var line = data.lines[i];
@@ -31,10 +34,7 @@ function display(){
 };
 
 function editline(num){
-    if(editline_now != null && editline_now != num){
-	data.lines[editline_now] = $('input#line'+editline_now).val();
-	display();
-    }
+    display();
     line = $('li#line'+num);
     line.html('<input type="text" id="line'+num+'" size="30" value="'+line.html()+'">');
     line.die('click');
