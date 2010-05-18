@@ -2,6 +2,7 @@
 document.onload = loadPage();
 
 var data;
+var editline_now;
 
 function loadPage(){
     var url = location.href+".json";
@@ -15,22 +16,27 @@ function savePage(){
 };
 
 function display(){
-    var edit_html = '';
+    edit_html = ''
     for(var i = 0; i < data.lines.length; i++){
 	var line = data.lines[i];
 	edit_html += '<li class="line" id="line' + i + '">' + line + '</li>';
-    }
-    $('#edit').html('<ul>' + edit_html + '</ul>');
-    for(var i = 0; i < data.lines.length; i++){
+	$('li#line'+i).die('click');
 	new function(i){
-	    $('#line'+i).click(function(e){
-		    alert("click"+i);
+	    $('li#line'+i).live('click', function(){
+		    editline(i);
 		});
 	}(i);
     }
-    
+    $('#edit').html('<ul>'+edit_html+'</ul>');
 };
 
 function editline(num){
-    $('#line'+i)
+    if(editline_now != null && editline_now != num){
+	data.lines[editline_now] = $('input#line'+editline_now).val();
+	display();
+    }
+    line = $('li#line'+num);
+    line.html('<input type="text" id="line'+num+'" size="30" value="'+line.html()+'">');
+    line.die('click');
+    editline_now = num;
 };
