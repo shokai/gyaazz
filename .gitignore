@@ -1,0 +1,8 @@
+*.log
+*~
+.DS_Store
+db/*
+db*
+.fuse*
+*.tch
+config.yaml
