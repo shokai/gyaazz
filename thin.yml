@@ -1,0 +1,7 @@
+timeout: 30
+log: log/thin.log
+environment: production
+servers: 10
+daemonize: true
+rackup: config.ru
+port: 4050

@@ -1,0 +1,16 @@
+>> Writing PID to tmp/pids/thin.4052.pid
+>> Thin web server (v1.2.7 codename No Hup)
+>> Maximum connections set to 1024
+>> Listening on 0.0.0.0:4052, CTRL+C to stop
+>> Exiting!
+>> Writing PID to tmp/pids/thin.4052.pid
+>> Thin web server (v1.2.7 codename No Hup)
+>> Maximum connections set to 1024
+>> Listening on 0.0.0.0:4052, CTRL+C to stop
+close
+127.0.0.1 - - [25/Apr/2010 18:24:35] "GET /shokai/keys HTTP/1.1" 200 21 0.0015
+close
+127.0.0.1 - - [25/Apr/2010 18:24:35] "GET /favicon.ico HTTP/1.1" 200 20 0.0009
+close
+127.0.0.1 - - [25/Apr/2010 18:24:40] "GET /favicon.ico HTTP/1.1" 200 20 0.0008
+>> Exiting!
