@@ -40,6 +40,7 @@ function editline(num){
     display();
     line = $('li#line'+num);
     line.html('<input type="text" id="line'+num+'" size="30" value="'+line.html()+'">');
+    $('input#line'+num).focus();
     line.die('click');
     $('input#line'+num).keypress(function(e){
 	if(e.keyCode == KC.enter){
