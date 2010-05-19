@@ -1,12 +1,12 @@
 
-document.onload = loadPage();
+document.onload = load_page();
 
 var data;
 var currentline = null;
 
 var KC = { tab:9, enter:13, left:37, up:38, right:39, down:40};
 
-function loadPage(){
+function load_page(){
     var url = location.href+".json";
     $.getJSON(url, function(json) {
 	    data = json
@@ -14,7 +14,7 @@ function loadPage(){
 	});
 };
 
-function savePage(){
+function save_page(){
 };
 
 function display(){
