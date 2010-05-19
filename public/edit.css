@@ -1,5 +1,12 @@
 
 div#status{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: #666;
+    color: #FFF;
+    padding: 5px;
+    display: none;
 }
 
 div#edit{
