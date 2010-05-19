@@ -56,9 +56,15 @@ function display(){
 function save_currentline(){
     if(currentline == null) return;
     var tmp = $('input#line'+currentline).val();
-    if(data.lines[currentline] == tmp) return;
-    data.lines[currentline] = tmp;
-    save_page();
+    if(tmp.length < 1){
+	delete_line(currentline);
+	save_page();
+    }
+    else{
+	if(data.lines[currentline] == tmp) return;
+	else data.lines[currentline] = tmp;
+	save_page();
+    }
 };
 
 function editline(num){
@@ -105,7 +111,7 @@ function editline(num){
 };
 
 function insert_newline(num){
-    if(num > data.lines.length || num < 0) return;
+    if(num > data.lines.length || num < 0) return false;
     newlines = new Array();
     for(var i = 0; i < num; i++){
 	newlines.push(data.lines[i]);
@@ -113,6 +119,15 @@ function insert_newline(num){
     newlines.push('');
     for(var i = num; i < data.lines.length; i++){
 	newlines.push(data.lines[i]);
+    }
+    data.lines = newlines;
+};
+
+function delete_line(num){
+    if(num > data.lines.length-1 || num < 0) return false;
+    newlines = new Array();
+    for(var i = 0; i < data.lines.length; i++){
+	if(i != num) newlines.push(data.lines[i]);
     }
     data.lines = newlines;
 };

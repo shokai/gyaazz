@@ -44,7 +44,8 @@ end
 post '*.json' do
   begin
     db_open(params[:splat])
-    @pages['tmp'] = {'lines' => params[:lines]}.to_json
+    lines = params[:lines].delete_if{|i| i.size < 1 or i=~/^\s+$/}
+    @pages['tmp'] = {'lines' => lines}.to_json
     @mes = {'success' => 'true'}.to_json
   rescue
     @mes = {'error' => 'save error!'}.to_json
