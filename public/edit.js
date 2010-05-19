@@ -29,7 +29,8 @@ function save_page(){
 	    }
 	    var url = location.href+'.json';
 	    $.post(url, data, function(json){
-		    message('saved!');
+		    if(json.success) message('saved!');
+		    else message(json.error);
 		},'json');
 	}, 3000);
 };

@@ -42,10 +42,13 @@ get '*.json' do
 end
 
 post '*.json' do
-  db_open(params[:splat])
-  @pages['tmp'] = {'lines' => params[:lines]}.to_json
-  p params
-  @mes = {'save' => 'success'}.to_json
+  begin
+    db_open(params[:splat])
+    @pages['tmp'] = {'lines' => params[:lines]}.to_json
+    @mes = {'success' => 'true'}.to_json
+  rescue
+    @mes = {'error' => 'save error!'}.to_json
+  end
 end
 
 get '*' do
