@@ -15,6 +15,10 @@ function load_page(){
 };
 
 function save_page(){
+    var url = location.href+'.json';
+    $.post(url, data, function(json){
+	    // 保存できたのを何か表示しよう
+	},'json');
 };
 
 function display(){
@@ -38,7 +42,7 @@ function save_currentline(){
     if(currentline != null){
 	data.lines[currentline] = $('input#line'+currentline).val();
     }
-    // このタイミングて通信しよう
+    save_page();
 };
 
 function editline(num){

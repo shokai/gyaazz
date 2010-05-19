@@ -36,13 +36,15 @@ get '*.json' do
     @mes = {'lines' => ["(empty)","2","3"]}.to_json
   else
     key = @pages.keys.last
-    @mes = @pages[key].to_json
+    @mes = @pages[key]
   end
 end
 
 post '*.json' do
   db_open(params[:splat])
-  puts params[:text]
+  @pages['tmp'] = {'lines' => params[:lines]}.to_json
+  p params
+  @mes = {'save' => 'success'}.to_json
 end
 
 get '*' do
