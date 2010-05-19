@@ -54,18 +54,24 @@ function editline(num){
 		insert_newline(currentline+1);
 		display();
 		editline(currentline+1);
-		//currentline = null;
 		break;
+	    }
+	});
+    $('input#line'+num).keydown(function(e){
+	    switch(e.keyCode){
 	    case KC.down:
-		alert("down");
 		if(currentline < data.lines.length-1){
+		    save_currentline();
+		    display();
 		    editline(currentline+1);
 		}
 		break;
 	    case KC.up:
 		if(currentline > 0){
+		    save_currentline();
+		    display();
 		    editline(currentline-1);
-		}
+		}		
 		break;
 	    }
 	});
