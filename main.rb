@@ -6,6 +6,7 @@ require 'sinatra/reloader' if development?
 require 'rack'
 require 'erb'
 require 'json'
+require 'uri'
 require 'tokyocabinet'
 include TokyoCabinet
 
@@ -48,7 +49,6 @@ post '*.json' do
 end
 
 get '*' do
-  puts params[:splat]
   @root_path = '../'*(params[:splat].first.split(/\//).size-2)
   erb :edit
 end
