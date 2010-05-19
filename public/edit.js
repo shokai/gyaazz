@@ -28,9 +28,11 @@ function save_page(){
 		data.lines[currentline] = $('input#line'+currentline).val();
 	    }
 	    var url = location.href+'.json';
-	    $.post(url, data, function(json){
-		    if(json.success) message(json.message);
-		    else message(json.error);
+	    $.post(url, data, function(res){
+		    if(res.error) message(res.message);
+		    else if(res.success){
+			message(res.message);
+		    }
 		},'json');
 	}, 3000);
 };
