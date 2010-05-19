@@ -15,6 +15,12 @@ function load_page(){
 	});
 };
 
+function message(str){
+    $('#status').html(str);
+    $('#status').show();
+    $('#status').fadeOut(1000);    
+};
+
 function save_page(){
     clearTimeout(timer_save);
     timer_save = setTimeout(function(){
@@ -23,11 +29,9 @@ function save_page(){
 	    }
 	    var url = location.href+'.json';
 	    $.post(url, data, function(json){
-		    $('#status').html('saved!');
-		    $('#status').show();
-		    $('#status').fadeOut('slow');
+		    message('saved!');
 		},'json');
-	}, 5000);
+	}, 3000);
 };
 
 function display(){
