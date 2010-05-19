@@ -18,6 +18,9 @@ function load_page(){
 function save_page(){
     clearTimeout(timer_save);
     timer_save = setTimeout(function(){
+	    if(currentline != null){
+		data.lines[currentline] = $('input#line'+currentline).val();
+	    }
 	    var url = location.href+'.json';
 	    $.post(url, data, function(json){
 		    $('#status').html('saved!');
