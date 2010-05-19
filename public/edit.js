@@ -124,7 +124,7 @@ function insert_newline(num){
 };
 
 function delete_line(num){
-    if(num > data.lines.length-1 || num < 0) return false;
+    if(data.lines.length < 2 || num > data.lines.length-1 || num < 0) return false;
     newlines = new Array();
     for(var i = 0; i < data.lines.length; i++){
 	if(i != num) newlines.push(data.lines[i]);
