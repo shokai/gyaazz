@@ -1,4 +1,3 @@
-
 document.onload = load_page();
 
 var data;
@@ -7,6 +6,7 @@ var currentline = null;
 var KC = { tab:9, enter:13, left:37, up:38, right:39, down:40};
 
 function load_page(){
+    console.log("load_page");
     var url = location.href+".json";
     $.getJSON(url, function(json) {
 	    data = json
@@ -27,8 +27,9 @@ function display(){
 	var line = data.lines[i];
 	edit_html += '<li class="line" id="line' + i + '">' + line + '</li>';
 	$('li#line'+i).die('click');
+	$('body').unbind('click');
 	new function(i){
-	    $('li#line'+i).live('click', function(){
+	    $('li#line'+i).live('click', function(e){
 		    save_currentline();
 		    display();
 		    editline(i);
@@ -79,7 +80,13 @@ function editline(num){
 		break;
 	    }
 	});
-
+    $('body').click(function(e){
+	    console.log("body_click");
+	    if(currentline == null) return;
+	    save_currentline();
+	    currentline = null;
+	    display();
+	});
 };
 
 function insert_newline(num){
