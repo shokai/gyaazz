@@ -18,6 +18,9 @@ function save_page(){
     var url = location.href+'.json';
     $.post(url, data, function(json){
 	    // 保存できたのを何か表示しよう
+	    $('#status').html('saved!');
+	    $('#status').show();
+	    $('#status').fadeOut('slow');
 	},'json');
 };
 
