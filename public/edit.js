@@ -4,13 +4,15 @@ var timer_save, timer_sync;
 
 var KC = { tab:9, enter:13, left:37, up:38, right:39, down:40};
 
-document.onload = load_page(display);
+document.onload = load_page();
 document.onload = sync_start();
 
 function sync_start(){
     if(timer_sync == null){
 	timer_sync = setInterval(function(){
-		if(currentline == null) load_page(display);
+		if(currentline == null){
+		    load_page();
+		}
 	    }, 10000);
     }
     return timer_sync;
@@ -21,12 +23,25 @@ function sync_stop(){
     timer_sync = null;
 };
 
-function load_page(on_load){
+function load_page(){
     console.log("load_page");
     var url = location.href+".json";
-    $.getJSON(url, function(json) {
-	    data = json;
-	    on_load();
+    $.getJSON(url, function(res) {
+	    changed = false;
+	    if(data == null || data.lines.length != res.lines.length) changed = true;
+	    if(!changed){
+		for(var i = 0; i < data.lines.length; i++){
+		    if(data.lines[i] != res.lines[i]){
+			changed = true;
+			break;
+		    }
+		}
+	    }
+	    if(changed){
+		data = res;
+		display();
+		message('sync');
+	    }
 	});
 };
 
@@ -85,9 +100,10 @@ function save_currentline(){
 };
 
 function editline(num){
+    sync_stop();
     currentline = num;
     line = $('li#line'+num);
-    line.html('<input type="text" id="line'+num+'" size="30" value="'+line.html()+'">');
+    line.html('<input type="text" id="line'+num+'" size="160" value="'+line.html()+'">');
     $('input#line'+num).focus();
     line.die('click');
     $('input#line'+num).keypress(function(e){
@@ -122,6 +138,7 @@ function editline(num){
 	    if(currentline == null) return;
 	    save_currentline();
 	    currentline = null;
+	    sync_start();
 	    display();
 	});
 };
