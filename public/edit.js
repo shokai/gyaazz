@@ -51,8 +51,10 @@ function editline(num){
 	    switch(e.keyCode){
 	    case KC.enter:
 		save_currentline();
+		insert_newline(currentline+1);
 		display();
-		currentline = null;
+		editline(currentline+1);
+		//currentline = null;
 		break;
 	    case KC.down:
 		alert("down");
@@ -68,4 +70,17 @@ function editline(num){
 	    }
 	});
 
+};
+
+function insert_newline(num){
+    if(num > data.lines.length || num < 0) return;
+    newlines = new Array();
+    for(var i = 0; i < num; i++){
+	newlines.push(data.lines[i]);
+    }
+    newlines.push('');
+    for(var i = num; i < data.lines.length; i++){
+	newlines.push(data.lines[i]);
+    }
+    data.lines = newlines;
 };
