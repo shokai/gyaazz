@@ -2,7 +2,7 @@
 document.onload = loadPage();
 
 var data;
-var editline_now = null;
+var currentline = null;
 
 var KC = { tab:9, enter:13, left:37, up:38, right:39, down:40};
 
@@ -18,17 +18,15 @@ function savePage(){
 };
 
 function display(){
-    if(editline_now != null){
-	data.lines[editline_now] = $('input#line'+editline_now).val();
-    }
     edit_html = ''
     for(var i = 0; i < data.lines.length; i++){
 	var line = data.lines[i];
 	edit_html += '<li class="line" id="line' + i + '">' + line + '</li>';
 	$('li#line'+i).die('click');
-	//$('li#line'+i).die('keypress');
 	new function(i){
 	    $('li#line'+i).live('click', function(){
+		    save_currentline();
+		    display();
 		    editline(i);
 		});
 	}(i);
@@ -36,16 +34,38 @@ function display(){
     $('#edit').html('<ul>'+edit_html+'</ul>');
 };
 
+function save_currentline(){
+    if(currentline != null){
+	data.lines[currentline] = $('input#line'+currentline).val();
+    }
+    // このタイミングて通信しよう
+};
+
 function editline(num){
-    display();
+    currentline = num;
     line = $('li#line'+num);
     line.html('<input type="text" id="line'+num+'" size="30" value="'+line.html()+'">');
     $('input#line'+num).focus();
     line.die('click');
     $('input#line'+num).keypress(function(e){
-	if(e.keyCode == KC.enter){
-	    display();
-	}
+	    switch(e.keyCode){
+	    case KC.enter:
+		save_currentline();
+		display();
+		currentline = null;
+		break;
+	    case KC.down:
+		alert("down");
+		if(currentline < data.lines.length-1){
+		    editline(currentline+1);
+		}
+		break;
+	    case KC.up:
+		if(currentline > 0){
+		    editline(currentline-1);
+		}
+		break;
+	    }
 	});
-    editline_now = num;
+
 };
