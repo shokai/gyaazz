@@ -2,6 +2,7 @@ document.onload = load_page();
 
 var data;
 var currentline = null;
+var timer_save;
 
 var KC = { tab:9, enter:13, left:37, up:38, right:39, down:40};
 
@@ -15,13 +16,15 @@ function load_page(){
 };
 
 function save_page(){
-    var url = location.href+'.json';
-    $.post(url, data, function(json){
-	    // 保存できたのを何か表示しよう
-	    $('#status').html('saved!');
-	    $('#status').show();
-	    $('#status').fadeOut('slow');
-	},'json');
+    clearTimeout(timer_save);
+    timer_save = setTimeout(function(){
+	    var url = location.href+'.json';
+	    $.post(url, data, function(json){
+		    $('#status').html('saved!');
+		    $('#status').show();
+		    $('#status').fadeOut('slow');
+		},'json');
+	}, 5000);
 };
 
 function display(){
