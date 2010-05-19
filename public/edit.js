@@ -29,7 +29,7 @@ function save_page(){
 	    }
 	    var url = location.href+'.json';
 	    $.post(url, data, function(json){
-		    if(json.success) message('saved!');
+		    if(json.success) message(json.message);
 		    else message(json.error);
 		},'json');
 	}, 3000);
@@ -102,7 +102,6 @@ function editline(num){
 	    }
 	});
     $('body').click(function(e){
-	    console.log("body_click");
 	    if(currentline == null) return;
 	    save_currentline();
 	    currentline = null;
@@ -124,10 +123,11 @@ function insert_newline(num){
 };
 
 function delete_line(num){
-    if(data.lines.length < 2 || num > data.lines.length-1 || num < 0) return false;
+    if(num > data.lines.length-1 || num < 0) return false;
     newlines = new Array();
     for(var i = 0; i < data.lines.length; i++){
 	if(i != num) newlines.push(data.lines[i]);
     }
     data.lines = newlines;
+    if(data.lines.length < 1) data.lines.push("(empty)");
 };

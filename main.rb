@@ -34,7 +34,7 @@ end
 get '*.json' do
   db_open(params[:splat])
   if @pages.keys.size < 1
-    @mes = {'lines' => ["(empty)","2","3"]}.to_json
+    @mes = {'lines' => ["(empty)"]}.to_json
   else
     key = @pages.keys.last
     @mes = @pages[key]
@@ -46,7 +46,12 @@ post '*.json' do
     db_open(params[:splat])
     lines = params[:lines].delete_if{|i| i.size < 1 or i=~/^\s+$/}
     @pages['tmp'] = {'lines' => lines}.to_json
-    @mes = {'success' => 'true'}.to_json
+    if lines.size < 2 and lines.first == "(empty)"
+      # ページの削除処理
+      @mes = {'success' => 'true', 'message' => 'page deleted'}.to_json
+    else
+      @mes = {'success' => 'true', 'message' => 'saved!'}.to_json
+    end
   rescue
     @mes = {'error' => 'save error!'}.to_json
   end
