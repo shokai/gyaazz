@@ -49,7 +49,7 @@ end
 
 get '*' do
   puts params[:splat]
-  @root_path = '../'*(params[:splat].first.split(/\//).size-1)
+  @root_path = '../'*(params[:splat].first.split(/\//).size-2)
   erb :edit
 end
 
