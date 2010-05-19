@@ -36,7 +36,12 @@ get '*.json' do
   if @pages.keys.size < 1
     @mes = {'lines' => ["(empty)"]}.to_json
   else
-    key = @pages.keys.last
+    if params[:v]
+      ver = params[:v].to_i
+      key = @pages.keys.reverse[ver]
+    else
+      key = @pages.keys.last
+    end
     @mes = @pages[key]
   end
 end
