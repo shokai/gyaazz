@@ -1,17 +1,32 @@
-document.onload = load_page();
-
 var data;
 var currentline = null;
-var timer_save;
+var timer_save, timer_sync;
 
 var KC = { tab:9, enter:13, left:37, up:38, right:39, down:40};
 
-function load_page(){
+document.onload = load_page(display);
+document.onload = sync_start();
+
+function sync_start(){
+    if(timer_sync == null){
+	timer_sync = setInterval(function(){
+		if(currentline == null) load_page(display);
+	    }, 10000);
+    }
+    return timer_sync;
+};
+
+function sync_stop(){
+    clearInterval(timer_sync);
+    timer_sync = null;
+};
+
+function load_page(on_load){
     console.log("load_page");
     var url = location.href+".json";
     $.getJSON(url, function(json) {
-	    data = json
-	    display();
+	    data = json;
+	    on_load();
 	});
 };
 
