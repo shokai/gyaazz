@@ -53,9 +53,10 @@ function display(){
 };
 
 function save_currentline(){
-    if(currentline != null){
-	data.lines[currentline] = $('input#line'+currentline).val();
-    }
+    if(currentline == null) return;
+    var tmp = $('input#line'+currentline).val();
+    if(data.lines[currentline] == tmp) return;
+    data.lines[currentline] = tmp;
     save_page();
 };
 
