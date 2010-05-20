@@ -2,7 +2,7 @@ var data;
 var currentline = null;
 var timer_save, timer_sync;
 
-var KC = { tab:9, enter:13, left:37, up:38, right:39, down:40};
+var KC = { tab:9, enter:13, left:37, up:38, right:39, down:40, n:78, p:80};
 var last_edit_at = new Date();
 
 document.onload = load_page();
@@ -243,6 +243,24 @@ function editline(num){
 			save_currentline();
 			display();
 			editline(num);
+		    }
+		}
+		break;
+	    case KC.n:
+		if(e.ctrlKey){
+		    if(currentline < data.lines.length-1){
+			save_currentline();
+			display();
+			editline(currentline+1);
+		    }
+		}
+		break;
+	    case KC.p:
+		if(e.ctrlKey){
+		    if(currentline > 0){
+			save_currentline();
+			display();
+			editline(currentline-1);
 		    }
 		}
 		break;
