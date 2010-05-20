@@ -8,10 +8,10 @@ var last_edit_at = new Date();
 document.onload = load_page();
 document.onload = sync_start();
 document.onkeydown = function(e){
-    if(currentline != null) last_edit_at = new Date();
+    last_edit_at = new Date();
 };
 document.onmousemove = function(e){
-    if(currentline != null) last_edit_at = new Date();
+    last_edit_at = new Date();
 };
 setInterval(function(){
 	if(new Date()-last_edit_at > 15000){ // 15秒間操作していない
