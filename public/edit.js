@@ -40,7 +40,6 @@ function sync_stop(){
 };
 
 function load_page(on_load){
-    console.log("load_page");
     var url = location.href+".json";
     $.getJSON(url, function(res){
 	    changed = false;
