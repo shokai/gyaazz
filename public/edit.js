@@ -83,14 +83,15 @@ function save_page(){
 };
 
 function display(){
-    edit_html = ''
+    $('#edit').html('')
     for(var i = 0; i < data.lines.length; i++){
 	var line = data.lines[i];
 	line = line.replace_all(/\[\[\[(.+)\]\]\]/, '<b>$1</b>', ']]]');
 	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+)(.jpe?g|.gif|.png)\]\]/, '<img src="$1$2">', ']]');
 	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+) (.+)\]\]/, '<a href="$1">$2</a>', ']]');
 	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="$1">$1</a>', ']]');
-	edit_html += '<li class="line" id="line' + i + '">' + line + '</li>';
+	$('#edit').append('<li class="line" id="line' + i + '">' + line.match(/^ *(.+)/)[1] + '</li>');
+	$('li#line'+i).css('margin-left', line.match(/^( *)/)[1].length*30);
 	$('li#line'+i).die('click');
 	$('body').unbind('click');
 	new function(i){
@@ -101,7 +102,8 @@ function display(){
 		});
 	}(i);
     }
-    $('#edit').html('<ul>'+edit_html+'</ul>');
+    $('#edit').html('<ul>'+$('#edit').html()+'</ul>');
+
 };
 
 function save_currentline(){
@@ -166,6 +168,25 @@ function editline(num){
 		    display();
 		    editline(currentline-1);
 		}		
+		break;
+	    case KC.right:
+		if(e.shiftKey){
+		    $('input#line'+num).val(' '+$('input#line'+num).val());
+		    save_currentline();
+		    display();
+		    editline(num);
+		}
+		break;
+	    case KC.left:
+		if(e.shiftKey){
+		    val = $('input#line'+num).val();
+		    if(val.match(/^ +/)){
+			$('input#line'+num).val(val.replace(/^ (.*)$/, "$1"));
+			save_currentline();
+			display();
+			editline(num);
+		    }
+		}
 		break;
 	    }
 	});
