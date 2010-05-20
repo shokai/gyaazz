@@ -2,11 +2,14 @@ var data;
 var currentline = null;
 var timer_save, timer_sync;
 
-var KC = { tab:9, enter:13, left:37, up:38, right:39, down:40, n:78, p:80};
+var KC = {tab:9, enter:13, left:37, up:38, right:39, down:40, n:78, p:80};
 var last_edit_at = new Date();
 
-document.onload = load_page();
-document.onload = sync_start();
+$(function(){
+  load_page();
+  sync_start();    
+});
+
 document.onkeydown = function(e){
     last_edit_at = new Date();
 };
@@ -20,7 +23,7 @@ setInterval(function(){
 	    currentline = null;
 	    display();
 	}
-    }, 1000);
+}, 1000);
 
 
 function sync_start(){
@@ -62,8 +65,9 @@ function load_page(on_load){
 
 function message(str){
     $('#status').html(str);
-    $('#status').show();
-    $('#status').fadeOut(1000);    
+    $('#status').fadeIn('slow', function(){
+      $(this).fadeOut(1000);
+    });
 };
 
 function save_page(){

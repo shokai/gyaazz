@@ -5,12 +5,16 @@ require "bundler"
 Bundler.setup
 require 'sinatra'
 require 'sinatra/reloader' if development?
+require 'sinatra/static_assets'
 require 'rack'
 require 'erb'
 require 'json'
 require 'uri'
 require 'tokyocabinet'
 include TokyoCabinet
+
+# helpers Sinatra::UrlForHelper
+# register Sinatra::StaticAssets
 
 @@dbdir = 'db'
 
@@ -19,6 +23,10 @@ def db_open(dbname='/')
   @pages = HDB.new
   Dir.mkdir(@@dbdir) if !File.exists?(@@dbdir)
   @pages.open("#{@@dbdir}/_#{dbname}.tch", HDB::OWRITER|HDB::OCREAT)  
+end
+
+before do
+  @title = "gyaazz"
 end
 
 after do
@@ -72,6 +80,7 @@ end
 
 get '*' do
   @root_path = '../'*(params[:splat].first.split(/\//).size-2)
+  @title = params[:splat].to_s
   erb :edit
 end
 
