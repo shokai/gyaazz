@@ -70,7 +70,8 @@ function save_page(){
     clearTimeout(timer_save);
     timer_save = setTimeout(function(){
 	    if(currentline != null){
-		data.lines[currentline] = $('input#line'+currentline).val();
+		val = $('input#line'+currentline).val();
+		if(val != null) data.lines[currentline] = val;
 	    }
 	    var url = location.href+'.json';
 	    $.post(url, data, function(res){
@@ -83,7 +84,7 @@ function save_page(){
 };
 
 function display(){
-    $('#edit').html('')
+    $('#edit').html('');
     for(var i = 0; i < data.lines.length; i++){
 	var line = data.lines[i];
 	line = line.replace_all(/\[\[\[(.+)\]\]\]/, '<b>$1</b>', ']]]');
