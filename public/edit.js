@@ -14,7 +14,7 @@ document.onmousemove = function(e){
     if(currentline != null) last_edit_at = new Date();
 };
 setInterval(function(){
-	if(new Date()-last_edit_at > 15000){ // 15秒間操作が無い
+	if(new Date()-last_edit_at > 15000){ // 15秒間操作していない
 	    save_currentline();
 	    currentline = null;
 	    display();

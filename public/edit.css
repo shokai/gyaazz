@@ -1,12 +1,17 @@
 
 div#status{
+    font-size: 30pt;
     position: fixed;
     bottom: 10px;
     right: 10px;
     background-color: #666;
     color: #FFF;
-    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 10px;
     display: none;
+    border-radius: 20px;
 }
 
 div#edit{
