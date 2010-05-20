@@ -144,6 +144,8 @@ function editline(num){
 	    case KC.down:
 		if(e.shiftKey){
 		    save_currentline();
+		    indent = data.lines[currentline].match(/^( *)/)[1].length;
+		    var target;
 		    if(swap_lines(currentline, currentline+1)){
 			display();
 			editline(currentline+1);
@@ -158,9 +160,36 @@ function editline(num){
 	    case KC.up:
 		if(e.shiftKey){
 		    save_currentline();
-		    if(swap_lines(currentline, currentline-1)){
+		    indent = data.lines[currentline].match(/^( *)/)[1].length;
+		    var target;
+		    for(var i = currentline-1; 0 <= i; i--){
+			indent_up = data.lines[i].match(/^( *)/)[1].length;
+			if(indent_up < indent) break;
+			if(indent_up == indent){
+			    target = i;
+			    break;
+			}
+		    }
+		    if(target != null){
+			line_blocks = [[],[],[],[],[]];
+			var i = 0;
+			while(i < target) line_blocks[0].push(data.lines[i++]);
+			line_blocks[1].push(data.lines[i++]);
+			for(; i < currentline; i++){
+			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+			    line_blocks[1].push(data.lines[i]);
+			}
+			while(i < currentline) line_blocks[2].push(data.lines[i++]);
+			line_blocks[3].push(data.lines[i++]);
+			for(; i < data.lines.length; i++){
+			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+			    line_blocks[3].push(data.lines[i]);
+			}
+			while(i < data.lines.length) line_blocks[4].push(data.lines[i++]);
+			data.lines = [line_blocks[0], line_blocks[3], line_blocks[2], line_blocks[1], line_blocks[4]].flatten();
+			save_page();
 			display();
-			editline(currentline-1);
+			editline(line_blocks[0].length);
 		    }
 		}
 		else if(currentline > 0){
