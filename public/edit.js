@@ -123,7 +123,7 @@ function editline(num){
     sync_stop();
     currentline = num;
     line = $('li#line'+num);
-    line.html('<input type="text" id="line'+num+'" size="160" value="'+line.html()+'">');
+    line.html('<input type="text" id="line'+num+'" size="160" value="'+data.lines[num]+'">');
     $('input#line'+num).focus();
     line.die('click');
     $('input#line'+num).keypress(function(e){
