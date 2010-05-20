@@ -3,9 +3,24 @@ var currentline = null;
 var timer_save, timer_sync;
 
 var KC = { tab:9, enter:13, left:37, up:38, right:39, down:40};
+var last_edit_at = new Date();
 
 document.onload = load_page();
 document.onload = sync_start();
+document.onkeydown = function(e){
+    if(currentline != null) last_edit_at = new Date();
+};
+document.onmousemove = function(e){
+    if(currentline != null) last_edit_at = new Date();
+};
+setInterval(function(){
+	if(new Date()-last_edit_at > 15000){ // 15秒間操作が無い
+	    save_currentline();
+	    currentline = null;
+	    display();
+	}
+    }, 1000);
+
 
 function sync_start(){
     if(timer_sync == null){
