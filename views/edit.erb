@@ -1,13 +1,4 @@
-<div class="container">
-  <div class="head">
-    <h1>gyaazz<%= params[:splat].to_s %></h1>
-  </div>
-  <div class="main">
-    <div id="edit"></div>
-  </div>
-  <div class="push"></div>
-</div>
-<div class="footer">
-  <div id="status"></div>
-  <p>&copy; shokai.org</p>
-</div>
+<% content_for :head do %>
+ <h1>gyaazz<%= params[:splat].to_s %></h1>
+<% end %>
+<div id="edit"></div>

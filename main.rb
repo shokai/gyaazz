@@ -1,11 +1,19 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 require "rubygems"
-require "bundler"
-Bundler.setup
+
+begin
+ require "bundler"
+rescue LoadError => e
+  $stderr.puts "No Bundler. Use system gem."
+else
+  Bundler.setup
+end
+
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'sinatra/static_assets'
+require 'sinatra/content_for'
 require 'rack'
 require 'erb'
 require 'json'
@@ -13,8 +21,8 @@ require 'uri'
 require 'tokyocabinet'
 include TokyoCabinet
 
-# helpers Sinatra::UrlForHelper
-# register Sinatra::StaticAssets
+set :root, File.dirname(__FILE__)
+set :public, Proc.new { File.join(root, "public") }
 
 @@dbdir = 'db'
 

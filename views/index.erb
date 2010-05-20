@@ -1,11 +1,14 @@
-<h1>gyaazz API</h1>
+<% content_for :head do %>
+ <h1>Gyaazz API<%= params[:splat].to_s %></h1>
+<% end %>
 <ul>
   <li>get
     <ul>
-<li><a href="./(name)/">/(name)/</a> get pages</li>
-<li><a href="./(name)/(page)"> </a></li>
+      <li><a href="./(name)/">/(name)/</a> get pages</li>
+      <li><a href="./(name)/(page)"> </a></li>
     </ul>
   </li>
 </ul>
+<br />
 <hr />
 <a href="http://github.com/shokai/sensor-storage">github.com/shokai/sensor-storage</a>

@@ -3,9 +3,21 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <%= stylesheet_link_tag @root_path+"edit.css" %>
   <%= javascript_script_tag @root_path+"jquery.js", @root_path+"jquery.caret.min.js", @root_path+"util.js", @root_path+"edit.js" %>
-  <title><%= @title %></title>
+    <title><%= @title %></title>
 </head>
 <body>
-  <%= yield %>
+<div class="container">
+  <div class="head">
+    <% yield_content :head %>
+  </div>
+  <div class="main">
+    <%= yield %>
+  </div>
+  <div class="push"></div>
+</div>
+<div class="footer">
+  <div id="status"></div>
+  <p>&copy; shokai.org</p>
+</div>
 </body>
 </html>
