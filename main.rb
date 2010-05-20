@@ -87,7 +87,6 @@ post '*.json' do
 end
 
 get '*' do
-  @root_path = '../'*(params[:splat].first.split(/\//).size-2)
   @title = params[:splat].to_s
   erb :edit
 end
