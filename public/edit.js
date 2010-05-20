@@ -90,7 +90,7 @@ function display(){
 	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+)(.jpe?g|.gif|.png)\]\]/, '<img src="$1$2">', ']]');
 	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+) (.+)\]\]/, '<a href="$1">$2</a>', ']]');
 	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="$1">$1</a>', ']]');
-	$('#edit').append('<li class="line" id="line' + i + '">' + line.match(/^ *(.+)/)[1] + '</li>');
+	$('#edit').append('<li class="line" id="line' + i + '">' + line.match(/^ *(.*)/)[1] + '</li>');
 	$('li#line'+i).css('margin-left', line.match(/^( *)/)[1].length*30);
 	$('li#line'+i).die('click');
 	$('body').unbind('click');
@@ -144,7 +144,7 @@ function editline(num){
 	    case KC.down:
 		if(e.shiftKey){
 		    save_currentline();
-		    if(flip_lines(currentline, currentline+1)){
+		    if(swap_lines(currentline, currentline+1)){
 			display();
 			editline(currentline+1);
 		    }
@@ -158,7 +158,7 @@ function editline(num){
 	    case KC.up:
 		if(e.shiftKey){
 		    save_currentline();
-		    if(flip_lines(currentline, currentline-1)){
+		    if(swap_lines(currentline, currentline-1)){
 			display();
 			editline(currentline-1);
 		    }
@@ -222,7 +222,7 @@ function delete_line(num){
     if(data.lines.length < 1) data.lines.push("(empty)");
 };
 
-function flip_lines(a, b){
+function swap_lines(a, b){
     if(a == b || a < 0 || data.lines.length-1 < a ||
        b < 0 || data.lines.length-1 < b ) return false;
     tmp = data.lines[a];
