@@ -141,9 +141,10 @@ function editline(num){
 	    case KC.down:
 		if(e.shiftKey){
 		    save_currentline();
-		    flip_lines(currentline, currentline+1);
-		    display();
-		    editline(currentline+1);
+		    if(flip_lines(currentline, currentline+1)){
+			display();
+			editline(currentline+1);
+		    }
 		}
 		else if(currentline < data.lines.length-1){
 		    save_currentline();
@@ -154,9 +155,10 @@ function editline(num){
 	    case KC.up:
 		if(e.shiftKey){
 		    save_currentline();
-		    flip_lines(currentline, currentline-1);
-		    display();
-		    editline(currentline-1);
+		    if(flip_lines(currentline, currentline-1)){
+			display();
+			editline(currentline-1);
+		    }
 		}
 		else if(currentline > 0){
 		    save_currentline();
@@ -204,4 +206,6 @@ function flip_lines(a, b){
     tmp = data.lines[a];
     data.lines[a] = data.lines[b];
     data.lines[b] = tmp;
+    save_page();
+    return true;
 };
