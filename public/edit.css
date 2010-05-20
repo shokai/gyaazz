@@ -1,80 +1,81 @@
 * {  margin: 0; }
 
 html, body {
-  height : 100%;
+    height : 100%;
 }
 a {
-  text-decoration : none;
+    text-decoration : none;
 }
 
 a, 
 a:active,
 a:link {
-  color : #3993D2;
+    color : #3993D2;
 }
 
 a:hover {
-  color : #39B5D2;
+    color : #39B5D2;
 }
 
 .head {
-  height : 40px;
-  padding : 10px 15px;
-  border-bottom : 3px solid #000;
+    height : 40px;
+    padding : 10px 15px;
+    border-bottom : 3px solid #000;
 }
 
 .head h1 {
-  font-family : Helvetica, sans-serif;
-  font-weight : bold;
-  font-size : 30px;
+    font-family : Helvetica, sans-serif;
+    font-weight : bold;
+    font-size : 30px;
 }
 
 .container {
-  margin : 0px 10px;
-  background : #FFF;
-  min-height: 100%;
-  height : auto !important;
-  height : 100%;
-  margin : 0 auto -30px;
+    margin : 0px 10px;
+    background : #FFF;
+    min-height: 100%;
+    height : auto !important;
+    height : 100%;
+    margin : 0 auto -30px;
 }
 
 .main {
-  margin : 10px;
-  min-height : 80%;
-  background : #fff;
-  border : 6px dotted #000;
-  border-radius: 20px;
-  -moz-border-radius: 20px;
-  -webkit-border-radius: 20px;
-  padding : 10px;
+    margin : 10px;
+    min-height : 80%;
+    background : #fff;
+    border : 6px dotted #000;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    padding : 10px;
 }
 
 .footer {
-  border-top : 3px solid #000;
-  padding-top : 5px;
-  padding-left : 10px;
+    border-top : 3px solid #000;
+    padding-top : 5px;
+    padding-left : 10px;
 }
 .footer p {
-  font-size : 12px;
-  color : #777;
+    font-size : 12px;
+    color : #777;
 }
 .footer, .push {
-  height :20px;
+    height :20px;
 }
 
 ul {
-  list-style: none;
-  margin-left: 0;
-  padding-left: 1em;
-  text-indent: -1em;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 1em;
+    text-indent: -1em;
+    width: 90%;
 }
 
 ul li:before {
-content: "\00BB \0020";
+    content: "\00BB \0020";
 }
 
 ul li {
-  border-bottom : 2px dashed #eee;
+    border-bottom : 2px dashed #eee;
 }
 
 div#status{
@@ -96,5 +97,5 @@ div#status{
 }
 
 div#edit{
-    // width: 80%;
+
 }
