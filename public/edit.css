@@ -6,6 +6,7 @@ html, body {
 a {
   text-decoration : none;
 }
+
 a, 
 a:active,
 a:link {
@@ -19,17 +20,18 @@ a:hover {
 .head {
   height : 40px;
   padding : 10px 15px;
-  border-bottom : 1px solid #CCC;
+  border-bottom : 3px solid #000;
 }
 
 .head h1 {
+  font-family : Helvetica, sans-serif;
   font-weight : bold;
-  font-size : 25px;
+  font-size : 30px;
 }
 
 .container {
   margin : 0px 10px;
-  background : #eee;
+  background : #FFF;
   min-height: 100%;
   height : auto !important;
   height : 100%;
@@ -38,18 +40,18 @@ a:hover {
 
 .main {
   margin : 10px;
-  height : 82%;
-  min-height : 82%;
+  height : 80%;
+  min-height : 80%;
   background : #fff;
-  border : 1px solid #CCC;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  border : 6px dotted #000;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
   padding : 10px;
 }
 
 .footer {
-  border-top : 1px solid #CCC;
+  border-top : 3px solid #000;
   padding-top : 5px;
   padding-left : 10px;
 }
@@ -58,8 +60,24 @@ a:hover {
   color : #777;
 }
 .footer, .push {
-  height : 30px;
+  height :20px;
 }
+
+ul {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 1em;
+  text-indent: -1em;
+}
+
+ul li:before {
+content: "\00BB \0020";
+}
+
+ul li {
+  border-bottom : 2px dashed #eee;
+}
+
 div#status{
     display: none;
     font-size: 20pt;
@@ -79,5 +97,5 @@ div#status{
 }
 
 div#edit{
-    width: 80%;
+    // width: 80%;
 }
