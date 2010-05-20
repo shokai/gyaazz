@@ -86,6 +86,7 @@ function display(){
     edit_html = ''
     for(var i = 0; i < data.lines.length; i++){
 	var line = data.lines[i];
+	line = line.replace_all(/\[\[\[(.+)\]\]\]/, '<b>$1</b>', ']]]');
 	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+) (.+)\]\]/, '<a href="$1">$2</a>', ']]');
 	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="$1">$1</a>', ']]');
 	edit_html += '<li class="line" id="line' + i + '">' + line + '</li>';
