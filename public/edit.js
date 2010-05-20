@@ -129,11 +129,13 @@ function editline(num){
     line.html('<input type="text" id="line'+num+'" size="140" value="'+data.lines[num]+'">');
     $('input#line'+num).focus();
     line.die('click');
+    indent = data.lines[currentline].match(/^( *)/)[1].length;
+    $('input#line'+num).caret({start:indent, end:data.lines[currentline].length});
     $('input#line'+num).keypress(function(e){
 	    switch(e.keyCode){
 	    case KC.enter:
 		save_currentline();
-		insert_newline(currentline+1, data.lines[currentline].match(/^( *)/)[1].length);
+		insert_newline(currentline+1, indent);
 		display();
 		editline(currentline+1);
 		break;
