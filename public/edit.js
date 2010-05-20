@@ -101,20 +101,22 @@ function display(){
 };
 
 function save_currentline(){
-    if(currentline == null) return;
+    if(currentline == null) return false;
     var tmp = $('input#line'+currentline).val();
+    if(!tmp) return false;
     if(tmp.length < 1){
 	delete_line(currentline);
 	save_page();
     }
     else{
-	if(data.lines[currentline] == tmp) return;
+	if(data.lines[currentline] == tmp) return false;
 	else data.lines[currentline] = tmp;
 	save_page();
     }
 };
 
 function editline(num){
+    if(num < 0 || data.lines.length-1 < num) return false;
     sync_stop();
     currentline = num;
     line = $('li#line'+num);
@@ -134,14 +136,26 @@ function editline(num){
     $('input#line'+num).keydown(function(e){
 	    switch(e.keyCode){
 	    case KC.down:
-		if(currentline < data.lines.length-1){
+		if(e.shiftKey){
+		    save_currentline();
+		    flip_lines(currentline, currentline+1);
+		    display();
+		    editline(currentline+1);
+		}
+		else if(currentline < data.lines.length-1){
 		    save_currentline();
 		    display();
 		    editline(currentline+1);
 		}
 		break;
 	    case KC.up:
-		if(currentline > 0){
+		if(e.shiftKey){
+		    save_currentline();
+		    flip_lines(currentline, currentline-1);
+		    display();
+		    editline(currentline-1);
+		}
+		else if(currentline > 0){
 		    save_currentline();
 		    display();
 		    editline(currentline-1);
@@ -179,4 +193,12 @@ function delete_line(num){
     }
     data.lines = newlines;
     if(data.lines.length < 1) data.lines.push("(empty)");
+};
+
+function flip_lines(a, b){
+    if(a == b || a < 0 || data.lines.length-1 < a ||
+       b < 0 || data.lines.length-1 < b ) return false;
+    tmp = data.lines[a];
+    data.lines[a] = data.lines[b];
+    data.lines[b] = tmp;
 };
