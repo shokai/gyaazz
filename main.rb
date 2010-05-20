@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
-require 'rubygems'
+require "rubygems"
+require "bundler"
+Bundler.setup
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'rack'
