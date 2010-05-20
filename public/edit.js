@@ -146,9 +146,35 @@ function editline(num){
 		    save_currentline();
 		    indent = data.lines[currentline].match(/^( *)/)[1].length;
 		    var target;
-		    if(swap_lines(currentline, currentline+1)){
+		    for(var i = currentline+1; i < data.lines.length; i++){
+			indent_down = data.lines[i].match(/^( *)/)[1].length;
+			if(indent_down < indent) break;
+			if(indent_down == indent){
+			    target = i;
+			    break;
+			}
+		    }
+		    if(target != null){
+			line_blocks = [[],[],[],[],[]];
+			var i = 0;
+			while(i < currentline) line_blocks[0].push(data.lines[i++]);
+			line_blocks[1].push(data.lines[i++]);
+			for(; i < target; i++){
+			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+			    line_blocks[1].push(data.lines[i]);
+			}
+			while(i < target) line_blocks[2].push(data.lines[i++]);
+			line_blocks[3].push(data.lines[i++]);
+			for(; i < data.lines.length; i++){
+			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+			    line_blocks[3].push(data.lines[i]);
+			}
+			while(i < data.lines.length) line_blocks[4].push(data.lines[i++]);
+			console.log(line_blocks);
+			data.lines = [line_blocks[0], line_blocks[3], line_blocks[2], line_blocks[1], line_blocks[4]].flatten();
+			save_page();
 			display();
-			editline(currentline+1);
+			editline(line_blocks[0].length+line_blocks[3].length+line_blocks[2].length);
 		    }
 		}
 		else if(currentline < data.lines.length-1){
@@ -197,7 +223,7 @@ function editline(num){
 		    display();
 		    editline(currentline-1);
 		}		
-		break;
+		    break;
 	    case KC.right:
 		if(e.shiftKey){
 		    $('input#line'+num).val(' '+$('input#line'+num).val());
