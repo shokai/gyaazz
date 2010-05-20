@@ -1,17 +1,13 @@
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" href="<%=@root_path%>edit.css" type="text/css">
-  <script type="text/javascript" src="<%=@root_path%>jquery.js"></script>
-  <script type="text/javascript" src="<%=@root_path%>jquery.caret.min.js"></script>
-  <script type="text/javascript" src="<%=@root_path%>util.js"></script>
-  <script type="text/javascript" src="<%=@root_path%>edit.js"></script>
-  <title>gyaazz<%= params[:splat].to_s %></title>
-</head>
-
-<body>
-  <h1>gyaazz<%= params[:splat].to_s %></h1>
-  <div id="edit"></div>
+<div class="container">
+  <div class="head">
+    <h1>gyaazz<%= params[:splat].to_s %></h1>
+  </div>
+  <div class="main">
+    <div id="edit"></div>
+  </div>
+  <div class="push"></div>
+</div>
+<div class="footer">
   <div id="status"></div>
-</body>
-</html>
+  <p>&copy; shokai.org</p>
+</div>

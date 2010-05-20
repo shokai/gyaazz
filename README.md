@@ -3,6 +3,13 @@ Gyaazz
 
 Outline processing wiki-engine like [Gyazz](http://gyazz.com/).
 
+Dependencies
+------------
+
+* Tokyocabinet
+* Sinatra
+* sinatra-reloader
+
 Setup
 -----
 
