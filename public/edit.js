@@ -133,7 +133,7 @@ function editline(num){
 	    switch(e.keyCode){
 	    case KC.enter:
 		save_currentline();
-		insert_newline(currentline+1);
+		insert_newline(currentline+1, data.lines[currentline].match(/^( *)/)[1].length);
 		display();
 		editline(currentline+1);
 		break;
@@ -254,13 +254,19 @@ function editline(num){
 	});
 };
 
-function insert_newline(num){
+function insert_newline(num, indent){
     if(num > data.lines.length || num < 0) return false;
     newlines = new Array();
     for(var i = 0; i < num; i++){
 	newlines.push(data.lines[i]);
     }
-    newlines.push('');
+    var nl = '';
+    if(indent){
+	for(var j = 0; j < indent; j++){
+	    nl += ' ';
+	}
+    }
+    newlines.push(nl);
     for(var i = num; i < data.lines.length; i++){
 	newlines.push(data.lines[i]);
     }
