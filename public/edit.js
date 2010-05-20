@@ -27,7 +27,7 @@ function sync_start(){
     if(timer_sync == null){
 	timer_sync = setInterval(function(){
 		if(currentline == null){
-		    load_page();
+		    load_page(function(){message('sync')});
 		}
 	    }, 10000);
     }
@@ -39,10 +39,10 @@ function sync_stop(){
     timer_sync = null;
 };
 
-function load_page(){
+function load_page(on_load){
     console.log("load_page");
     var url = location.href+".json";
-    $.getJSON(url, function(res) {
+    $.getJSON(url, function(res){
 	    changed = false;
 	    if(data == null || data.lines.length != res.lines.length) changed = true;
 	    if(!changed){
@@ -56,7 +56,7 @@ function load_page(){
 	    if(changed){
 		data = res;
 		display();
-		message('sync');
+		if(typeof(on_load)=='function') on_load();
 	    }
 	});
 };
