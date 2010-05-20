@@ -8,19 +8,19 @@ Setup
 
 Clone gyaazz source-code.
 
-  %git clone git://github.com/shokai/gyaazz.git
+    %git clone git://github.com/shokai/gyaazz.git
 
 Install Dependencies
 
-  # Mac OS X
-  %sudo port install tokyocabinet
-   
-  # Install bundle 
-  % bundle install
+    # Mac OS X
+    %sudo port install tokyocabinet
+     
+    # Install bundle 
+    % bundle install
 
 Run Gyaazz
 
-  % bundle exec ./main.rb
+    % bundle exec ./main.rb
 
 Author
 ------
