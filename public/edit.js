@@ -13,6 +13,7 @@ document.onkeydown = function(e){
 document.onmousemove = function(e){
     last_edit_at = new Date();
 };
+
 setInterval(function(){
 	if(new Date()-last_edit_at > 15000){ // 15秒間操作していない
 	    save_currentline();
@@ -86,7 +87,8 @@ function display(){
     edit_html = ''
     for(var i = 0; i < data.lines.length; i++){
 	var line = data.lines[i];
-	line = line.replace(/\[\[(.+)\]\]/, '<a href="./$1">$1</a>');
+	//line = line.replace(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+) (.+)\]\]/, '<a href="$1">$2</a>');
+	line = line.replace(/\[\[(.+)\]\]/, '<a href="$1">$1</a>');
 	edit_html += '<li class="line" id="line' + i + '">' + line + '</li>';
 	$('li#line'+i).die('click');
 	$('body').unbind('click');
@@ -104,8 +106,8 @@ function display(){
 function save_currentline(){
     if(currentline == null) return false;
     var tmp = $('input#line'+currentline).val();
-    if(!tmp) return false;
-    if(tmp.length < 1){
+    if(tmp == null) return false;
+    if(tmp.match(/^[ 	　]*$/)){
 	delete_line(currentline);
 	save_page();
     }
