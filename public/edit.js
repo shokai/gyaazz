@@ -125,6 +125,35 @@ function save_currentline(){
     }
 };
 
+function highlight_current_block(color){
+  if(currentline == null) return false;
+
+  current_block = [currentline];
+
+  if(color == null) color = '#fef4f4';
+  
+  var indent = data.lines[currentline].match(/^( *)/)[1].length;
+
+  for(var i = currentline+1; i < data.lines.length; i++){
+    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+    current_block.push(i);
+  }
+
+  if(current_block.length < 2) return;
+
+  $.each(current_block, function(){ 
+    var line_elm = $('li#line'+this);
+    line_elm.css({'background-color' : color });
+    // line_elm.addClass('current_block'); // <- cause TypeError.
+    setTimeout(function(){
+     line_elm.animate({'background-color' :'rgb(255, 255, 255)'},
+       1000, function(){
+         //$(this).removeClass('current_block');
+     });
+    }, 500);
+ });
+}
+
 function editline(num){
     if(num < 0 || data.lines.length-1 < num) return false;
     sync_stop();
@@ -135,7 +164,7 @@ function editline(num){
     $('input#line'+num).focus();
     line.die('click');
     var indent = data.lines[currentline].match(/^( *)/)[1].length;
-    $('input#line'+num).caret({start:indent, end:data.lines[currentline].length});
+    $('input#line'+num).caret({start:indent, end:indent});
     $('input#line'+num).keypress(function(e){
 	    switch(e.keyCode){
 	    case KC.enter:
@@ -146,8 +175,6 @@ function editline(num){
 		break;
 	    }
 	});
-    // mark current block
-    mark_current_block();
 
     $('input#line'+num).keydown(function(e){
 	    switch(e.keyCode){
@@ -165,7 +192,7 @@ function editline(num){
 			}
 		    }
 		    if(target != null){
-			line_blocks = [[],[],[],[],[]];
+			line_blocks = [[],[],[],[]];
 			var i = 0;
 			while(i < currentline) line_blocks[0].push(data.lines[i++]);
 			line_blocks[1].push(data.lines[i++]);
@@ -173,18 +200,17 @@ function editline(num){
 			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
 			    line_blocks[1].push(data.lines[i]);
 			}
-			while(i < target) line_blocks[2].push(data.lines[i++]);
-			line_blocks[3].push(data.lines[i++]);
+			line_blocks[2].push(data.lines[i++]);
 			for(; i < data.lines.length; i++){
 			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
-			    line_blocks[3].push(data.lines[i]);
+			    line_blocks[2].push(data.lines[i]);
 			}
-			while(i < data.lines.length) line_blocks[4].push(data.lines[i++]);
-			// console.log(line_blocks);
-			data.lines = [line_blocks[0], line_blocks[3], line_blocks[2], line_blocks[1], line_blocks[4]].flatten();
+			while(i < data.lines.length) line_blocks[3].push(data.lines[i++]);
+			data.lines = [line_blocks[0], line_blocks[2], line_blocks[1], line_blocks[3]].flatten();
 			save_page();
 			display();
-			editline(line_blocks[0].length+line_blocks[3].length+line_blocks[2].length);
+			editline(line_blocks[0].length+line_blocks[2].length);
+			highlight_current_block();
 		    }
 		}
 		else if(currentline < data.lines.length-1){
@@ -207,7 +233,7 @@ function editline(num){
 			}
 		    }
 		    if(target != null){
-			line_blocks = [[],[],[],[],[]];
+			line_blocks = [[],[],[],[]];
 			var i = 0;
 			while(i < target) line_blocks[0].push(data.lines[i++]);
 			line_blocks[1].push(data.lines[i++]);
@@ -215,17 +241,17 @@ function editline(num){
 			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
 			    line_blocks[1].push(data.lines[i]);
 			}
-			while(i < currentline) line_blocks[2].push(data.lines[i++]);
-			line_blocks[3].push(data.lines[i++]);
+			line_blocks[2].push(data.lines[i++]);
 			for(; i < data.lines.length; i++){
 			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
-			    line_blocks[3].push(data.lines[i]);
+			    line_blocks[2].push(data.lines[i]);
 			}
-			while(i < data.lines.length) line_blocks[4].push(data.lines[i++]);
-			data.lines = [line_blocks[0], line_blocks[3], line_blocks[2], line_blocks[1], line_blocks[4]].flatten();
+			while(i < data.lines.length) line_blocks[3].push(data.lines[i++]);
+			data.lines = [line_blocks[0], line_blocks[2], line_blocks[1], line_blocks[3]].flatten();
 			save_page();
 			display();
 			editline(line_blocks[0].length);
+			highlight_current_block();
 		    }
 		}
 		else if(currentline > 0){
@@ -253,6 +279,10 @@ function editline(num){
 		    }
 		}
 		break;
+	    }
+	});
+    $('input#line'+num).keyup(function(e){
+	    switch(e.keyCode){
 	    case KC.n:
 		if(e.ctrlKey){
 		    if(currentline < data.lines.length-1){
@@ -281,32 +311,6 @@ function editline(num){
 	    display();
 	});
 };
-
-function mark_current_block() {
-  // Mark current block.
-  var indent = data.lines[currentline].match(/^( *)/)[1].length;
-  var mark_lines = [];
-  mark_lines.push(currentline);
-
-  for(var i = currentline+1; i < data.lines.length; i++){
-  	if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
-    mark_lines.push(i)
-  }
-
-  if (mark_lines.length > 1) {
-    $.each(mark_lines, function(){
-       var line_elm = $('li#line'+this);
-       // line_elm.addClass('current_block'); // <- cause TypeError.
-       line_elm.css({'background-color' : '#fef4f4'});
-       setTimeout(function(){
-         line_elm.animate({'background-color' :'rgb(255, 255, 255)'},
-           1000, function(){
-             //$(this).removeClass('current_block');
-         });
-       }, 500);
-    });
-  }
-}
 
 function insert_newline(num, indent){
     if(num > data.lines.length || num < 0) return false;
