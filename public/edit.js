@@ -150,7 +150,7 @@ function highlight_current_block(color){
        1000, function(){
          //$(this).removeClass('current_block');
      });
-    }, 500);
+    }, 400);
  });
 }
 
