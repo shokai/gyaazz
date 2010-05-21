@@ -130,10 +130,10 @@ function highlight_current_block(color){
   if(color == null) color = '#fecccc';
 
   current_block = [currentline];
-  var indent = data.lines[currentline]indent();
+  var indent = data.lines[currentline].indent();
 
   for(var i = currentline+1; i < data.lines.length; i++){
-    if(indent >= data.lines[i]indent()) break;
+    if(indent >= data.lines[i].indent()) break;
     current_block.push(i);
   }
 
@@ -159,7 +159,7 @@ function editline(num){
 
     $('input#line'+num).focus();
     line.die('click');
-    var indent = data.lines[currentline]indent();
+    var indent = data.lines[currentline].indent();
     $('input#line'+num).caret({start:indent, end:indent});
     $('input#line'+num).keypress(function(e){
 	    switch(e.keyCode){
@@ -177,10 +177,10 @@ function editline(num){
 	    case KC.down:
 		if(e.shiftKey){
 		    save_currentline();
-		    indent = data.lines[currentline]indent();
+		    indent = data.lines[currentline].indent();
 		    var target;
 		    for(var i = currentline+1; i < data.lines.length; i++){
-			indent_down = data.lines[i]indent();
+			indent_down = data.lines[i].indent();
 			if(indent_down < indent) break;
 			if(indent_down == indent){
 			    target = i;
@@ -193,12 +193,12 @@ function editline(num){
 			while(i < currentline) line_blocks[0].push(data.lines[i++]);
 			line_blocks[1].push(data.lines[i++]);
 			for(; i < target; i++){
-			    if(indent >= data.lines[i]indent()) break;
+			    if(indent >= data.lines[i].indent()) break;
 			    line_blocks[1].push(data.lines[i]);
 			}
 			line_blocks[2].push(data.lines[i++]);
 			for(; i < data.lines.length; i++){
-			    if(indent >= data.lines[i]indent()) break;
+			    if(indent >= data.lines[i].indent()) break;
 			    line_blocks[2].push(data.lines[i]);
 			}
 			while(i < data.lines.length) line_blocks[3].push(data.lines[i++]);
@@ -218,10 +218,10 @@ function editline(num){
 	    case KC.up:
 		if(e.shiftKey){
 		    save_currentline();
-		    indent = data.lines[currentline]indent();
+		    indent = data.lines[currentline].indent();
 		    var target;
 		    for(var i = currentline-1; 0 <= i; i--){
-			indent_up = data.lines[i]indent();
+			indent_up = data.lines[i].indent();
 			if(indent_up < indent) break;
 			if(indent_up == indent){
 			    target = i;
@@ -234,12 +234,12 @@ function editline(num){
 			while(i < target) line_blocks[0].push(data.lines[i++]);
 			line_blocks[1].push(data.lines[i++]);
 			for(; i < currentline; i++){
-			    if(indent >= data.lines[i]indent()) break;
+			    if(indent >= data.lines[i].indent()) break;
 			    line_blocks[1].push(data.lines[i]);
 			}
 			line_blocks[2].push(data.lines[i++]);
 			for(; i < data.lines.length; i++){
-			    if(indent >= data.lines[i]indent()) break;
+			    if(indent >= data.lines[i].indent()) break;
 			    line_blocks[2].push(data.lines[i]);
 			}
 			while(i < data.lines.length) line_blocks[3].push(data.lines[i++]);
@@ -307,6 +307,7 @@ function editline(num){
 	    display();
 	});
 };
+
 
 function insert_newline(num, indent){
     if(num > data.lines.length || num < 0) return false;
