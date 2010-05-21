@@ -138,6 +138,9 @@ function highlight_current_block(class_name){
     for(var i = 0; i < current_block.length; i++){
 	$('li#line'+current_block[i]).addClass(class_name);
     }
+    setTimeout(function(){
+	    $('.'+class_name).removeClass(class_name);
+	}, 500);
 }
 
 function editline(num){
