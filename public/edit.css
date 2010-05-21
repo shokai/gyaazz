@@ -64,7 +64,7 @@ a:hover {
 
 ul {
     list-style: none;
-    margin-left: 0;
+    margin-left: 0em;
     padding-left: 1em;
     text-indent: -1em;
     width: 90%;
@@ -75,7 +75,12 @@ ul li:before {
 }
 
 ul li {
+    padding-left : 8px;
     border-bottom : 2px dashed #eee;
+}
+
+li.current_block{
+    background-color: #f99;
 }
 
 div#status{

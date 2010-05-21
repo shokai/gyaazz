@@ -108,7 +108,6 @@ function display(){
 	}(i);
     }
     $('#edit').html('<ul>'+$('#edit').html()+'</ul>');
-
 };
 
 function save_currentline(){
@@ -132,9 +131,10 @@ function editline(num){
     currentline = num;
     line = $('li#line'+num);
     line.html('<input type="text" id="line'+num+'" size="140" value="'+data.lines[num]+'">');
+
     $('input#line'+num).focus();
     line.die('click');
-    indent = data.lines[currentline].match(/^( *)/)[1].length;
+    var indent = data.lines[currentline].match(/^( *)/)[1].length;
     $('input#line'+num).caret({start:indent, end:data.lines[currentline].length});
     $('input#line'+num).keypress(function(e){
 	    switch(e.keyCode){
@@ -146,6 +146,13 @@ function editline(num){
 		break;
 	    }
 	});
+
+    $('li#line'+currentline).addClass('current_block');
+    for(var i = currentline+1; i < data.lines.length; i++){
+	if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+	$('li#line'+i).addClass('current_block');
+    }
+
     $('input#line'+num).keydown(function(e){
 	    switch(e.keyCode){
 	    case KC.down:
@@ -308,6 +315,8 @@ function delete_line(num){
     if(data.lines.length < 1) data.lines.push("(empty)");
 };
 
+
+// これ使ってない
 function swap_lines(a, b){
     if(a == b || a < 0 || data.lines.length-1 < a ||
        b < 0 || data.lines.length-1 < b ) return false;
