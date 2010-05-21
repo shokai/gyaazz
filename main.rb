@@ -21,9 +21,6 @@ require 'uri'
 require 'tokyocabinet'
 include TokyoCabinet
 
-set :root, File.dirname(__FILE__)
-set :public, Proc.new { File.join(root, "public") }
-
 @@dbdir = 'db'
 
 def db_open(dbname='/')
@@ -87,7 +84,6 @@ post '*.json' do
 end
 
 get '*' do
-  @root_path = '../'*(params[:splat].first.split(/\//).size-2)
   @title = params[:splat].to_s
   erb :edit
 end
