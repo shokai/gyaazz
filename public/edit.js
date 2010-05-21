@@ -187,20 +187,11 @@ function editline(num){
 			}
 		    }
 		    if(target != null){
-			line_blocks = [[],[],[],[]];
-			var i = 0;
-			while(i < currentline) line_blocks[0].push(data.lines[i++]);
-			line_blocks[1].push(data.lines[i++]);
-			for(; i < target; i++){
-			    if(indent >= data.lines[i].indent()) break;
-			    line_blocks[1].push(data.lines[i]);
-			}
-			line_blocks[2].push(data.lines[i++]);
-			for(; i < data.lines.length; i++){
-			    if(indent >= data.lines[i].indent()) break;
-			    line_blocks[2].push(data.lines[i]);
-			}
-			while(i < data.lines.length) line_blocks[3].push(data.lines[i++]);
+			line_blocks = [data.lines.slice(0,currentline), 
+				       get_block_lines(currentline),
+				       get_block_lines(target),
+				       []];
+			line_blocks[3] = data.lines.slice(target+line_blocks[2].length, data.lines.length);
 			data.lines = [line_blocks[0], line_blocks[2], line_blocks[1], line_blocks[3]].flatten();
 			save_page();
 			display();
@@ -228,20 +219,11 @@ function editline(num){
 			}
 		    }
 		    if(target != null){
-			line_blocks = [[],[],[],[]];
-			var i = 0;
-			while(i < target) line_blocks[0].push(data.lines[i++]);
-			line_blocks[1].push(data.lines[i++]);
-			for(; i < currentline; i++){
-			    if(indent >= data.lines[i].indent()) break;
-			    line_blocks[1].push(data.lines[i]);
-			}
-			line_blocks[2].push(data.lines[i++]);
-			for(; i < data.lines.length; i++){
-			    if(indent >= data.lines[i].indent()) break;
-			    line_blocks[2].push(data.lines[i]);
-			}
-			while(i < data.lines.length) line_blocks[3].push(data.lines[i++]);
+			line_blocks = [data.lines.slice(0, target),
+				       get_block_lines(target),
+				       get_block_lines(currentline),
+				       []];
+			line_blocks[3] = data.lines.slice(currentline+line_blocks[2].length, data.lines.length);
 			data.lines = [line_blocks[0], line_blocks[2], line_blocks[1], line_blocks[3]].flatten();
 			save_page();
 			display();
@@ -307,6 +289,29 @@ function editline(num){
 	});
 };
 
+
+// 指定行から辿ってインデント的に1かたまりになっている列のindexリストを返す
+function get_block_indexes(num){
+    if(typeof(num) != 'number' || num < 0 || data.lines.length <= num) return false;
+    indent = data.lines[num].indent();
+    block = [num];
+    for(var i = num+1; i < data.lines.length; i++){
+	if(indent >= data.lines[i].indent()) break;
+	block.push(i);
+    }
+    return block;
+};
+
+// 指定行から、インデント的にひとかたまりの列の本文を配列で返す
+function get_block_lines(num){
+    indexes = get_block_indexes(num);
+    if(!indexes) return false;
+    lines = new Array();
+    for(var i = 0; i < indexes.length; i++){
+	lines.push(data.lines[indexes[i]]);
+    }
+    return lines;
+};
 
 function insert_newline(num, indent){
     if(num > data.lines.length || num < 0) return false;
