@@ -90,22 +90,22 @@ function save_page(){
 function display(){
     $('#edit').html('');
     for(var i = 0; i < data.lines.length; i++){
-	var line = data.lines[i];
-	line = line.replace_all(/\[\[\[(.+)\]\]\]/, '<b>$1</b>', ']]]');
-	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+)(.jpe?g|.gif|.png)\]\]/, '<img src="$1$2">', ']]');
-	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+) (.+)\]\]/, '<a href="$1">$2</a>', ']]');
-	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="$1">$1</a>', ']]');
-	$('#edit').append('<li class="line" id="line' + i + '">' + line.match(/^ *(.*)/)[1] + '</li>');
-	$('li#line'+i).css('margin-left', line.match(/^( *)/)[1].length*30);
-	$('li#line'+i).die('click');
-	$('body').unbind('click');
-	new function(i){
-	    $('li#line'+i).live('click', function(e){
-		    save_currentline();
-		    display();
-		    editline(i);
-		});
-	}(i);
+    	var line = data.lines[i];
+    	line = line.replace_all(/\[\[\[(.+)\]\]\]/, '<b>$1</b>', ']]]');
+    	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+)(.jpe?g|.gif|.png)\]\]/, '<img src="$1$2">', ']]');
+    	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+) (.+)\]\]/, '<a href="$1">$2</a>', ']]');
+    	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="$1">$1</a>', ']]');
+    	$('#edit').append('<li class="line" id="line' + i + '">' + line.match(/^ *(.*)/)[1] + '</li>');
+    	$('li#line'+i).css('padding-left', line.match(/^( *)/)[1].length*30);
+    	$('li#line'+i).die('click');
+    	$('body').unbind('click');
+    	new function(i){
+    	    $('li#line'+i).live('click', function(e){
+    		    save_currentline();
+    		    display();
+    		    editline(i);
+    		});
+    	}(i);
     }
     $('#edit').html('<ul>'+$('#edit').html()+'</ul>');
 };
@@ -146,12 +146,8 @@ function editline(num){
 		break;
 	    }
 	});
-
-    $('li#line'+currentline).addClass('current_block');
-    for(var i = currentline+1; i < data.lines.length; i++){
-	if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
-	$('li#line'+i).addClass('current_block');
-    }
+    // mark current block
+    mark_current_block();
 
     $('input#line'+num).keydown(function(e){
 	    switch(e.keyCode){
@@ -184,7 +180,7 @@ function editline(num){
 			    line_blocks[3].push(data.lines[i]);
 			}
 			while(i < data.lines.length) line_blocks[4].push(data.lines[i++]);
-			console.log(line_blocks);
+			// console.log(line_blocks);
 			data.lines = [line_blocks[0], line_blocks[3], line_blocks[2], line_blocks[1], line_blocks[4]].flatten();
 			save_page();
 			display();
@@ -285,6 +281,31 @@ function editline(num){
 	    display();
 	});
 };
+
+function mark_current_block() {
+  // Mark current block.
+  var indent = data.lines[currentline].match(/^( *)/)[1].length;
+  var mark_lines = [];
+  mark_lines.push(currentline);
+
+  for(var i = currentline+1; i < data.lines.length; i++){
+  	if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+    mark_lines.push(i)
+  }
+
+  if (mark_lines.length > 1) {
+    $.each(mark_lines, function(){
+       var line_elm = $('li#line'+this);
+       line_elm.addClass('current_block');
+       setTimeout(function(){
+         line_elm.animate({'background-color' :'rgb(255, 255, 255)'},
+           1000, 'swing', function(){
+               $(this).removeClass('current_block');
+         });
+       }, 1000);
+    });
+  }
+}
 
 function insert_newline(num, indent){
     if(num > data.lines.length || num < 0) return false;

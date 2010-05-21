@@ -56,6 +56,7 @@ a:hover {
     padding-top : 5px;
     padding-left : 10px;
 }
+
 .footer p {
     font-size : 95%;
     color : #777;
@@ -87,12 +88,9 @@ ul li {
     padding-left : 8px;
     border-bottom : 2px dashed #eee;
 }
-ul li.swapline {
-  background : #eee;
-}
 
 li.current_block{
-    background-color: #f99;
+    background-color: #fef4f4;
 }
 
 div#status{
