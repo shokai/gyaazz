@@ -32,8 +32,8 @@ end
 
 before do
   @title = "gyaazz"
-  if /\/$/ =~ request.path_info
-    request.path_info = request.path_info.gsub(/\/$/, '')
+  if /.+\/$/ =~ request.path_info
+    redirect request.path_info.gsub(/\/$/, '')
   end
 end
 
