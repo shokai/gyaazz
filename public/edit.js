@@ -127,17 +127,8 @@ function save_currentline(){
 function highlight_current_block(color){
   if(currentline == null) return false;
   if(color == null) color = '#fecccc';
-
-  current_block = [currentline];
-  var indent = data.lines[currentline].indent();
-
-  for(var i = currentline+1; i < data.lines.length; i++){
-    if(indent >= data.lines[i].indent()) break;
-    current_block.push(i);
-  }
-
+  current_block = get_block_indexes(currentline);
   if(current_block.length < 2) return;
-
   $.each(current_block, function(){ 
     var line_elm = $('li#li'+this);
     line_elm.css({'background-color' : color });
