@@ -88,10 +88,14 @@ ul li {
     padding-left : 8px;
     border-bottom : 2px dashed #eee;
 }
-
-li.current_block{
-    background-color: #fef4f4;
-}
+/*
+ * Color animation does not work,
+ * thus I apply color in edit.js ...
+ *
+  li.current_block {
+      background-color: #fef4f4;
+  }
+*/
 
 div#status{
     display: none;

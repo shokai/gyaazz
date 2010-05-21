@@ -296,13 +296,14 @@ function mark_current_block() {
   if (mark_lines.length > 1) {
     $.each(mark_lines, function(){
        var line_elm = $('li#line'+this);
-       line_elm.addClass('current_block');
+       // line_elm.addClass('current_block'); // <- cause TypeError.
+       line_elm.css({'background-color' : '#fef4f4'});
        setTimeout(function(){
          line_elm.animate({'background-color' :'rgb(255, 255, 255)'},
-           1000, 'swing', function(){
-               $(this).removeClass('current_block');
+           1000, function(){
+             //$(this).removeClass('current_block');
          });
-       }, 1000);
+       }, 500);
     });
   }
 }
