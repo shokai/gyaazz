@@ -22,3 +22,7 @@ String.prototype.replace_all = function(regex, replace_str, delimiter){
     }
     return result;
 };
+
+String.prototype.indent = function(){
+    return this.match(/^( *)/)[1].length;
+};

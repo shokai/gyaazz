@@ -96,7 +96,7 @@ function display(){
     	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+) (.+)\]\]/, '<a href="$1">$2</a>', ']]');
     	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="$1">$1</a>', ']]');
     	$('#edit').append('<li class="line" id="line' + i + '">' + line.match(/^ *(.*)/)[1] + '</li>');
-    	$('li#line'+i).css('padding-left', line.match(/^( *)/)[1].length*30);
+    	$('li#line'+i).css('padding-left', line.indent()*30);
     	$('li#line'+i).die('click');
     	$('body').unbind('click');
     	new function(i){
@@ -127,15 +127,13 @@ function save_currentline(){
 
 function highlight_current_block(color){
   if(currentline == null) return false;
+  if(color == null) color = '#fecccc';
 
   current_block = [currentline];
-
-  if(color == null) color = '#fef4f4';
-  
-  var indent = data.lines[currentline].match(/^( *)/)[1].length;
+  var indent = data.lines[currentline]indent();
 
   for(var i = currentline+1; i < data.lines.length; i++){
-    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+    if(indent >= data.lines[i]indent()) break;
     current_block.push(i);
   }
 
@@ -144,11 +142,9 @@ function highlight_current_block(color){
   $.each(current_block, function(){ 
     var line_elm = $('li#line'+this);
     line_elm.css({'background-color' : color });
-    // line_elm.addClass('current_block'); // <- cause TypeError.
     setTimeout(function(){
      line_elm.animate({'background-color' :'rgb(255, 255, 255)'},
        1000, function(){
-         //$(this).removeClass('current_block');
      });
     }, 400);
  });
@@ -163,7 +159,7 @@ function editline(num){
 
     $('input#line'+num).focus();
     line.die('click');
-    var indent = data.lines[currentline].match(/^( *)/)[1].length;
+    var indent = data.lines[currentline]indent();
     $('input#line'+num).caret({start:indent, end:indent});
     $('input#line'+num).keypress(function(e){
 	    switch(e.keyCode){
@@ -181,10 +177,10 @@ function editline(num){
 	    case KC.down:
 		if(e.shiftKey){
 		    save_currentline();
-		    indent = data.lines[currentline].match(/^( *)/)[1].length;
+		    indent = data.lines[currentline]indent();
 		    var target;
 		    for(var i = currentline+1; i < data.lines.length; i++){
-			indent_down = data.lines[i].match(/^( *)/)[1].length;
+			indent_down = data.lines[i]indent();
 			if(indent_down < indent) break;
 			if(indent_down == indent){
 			    target = i;
@@ -197,12 +193,12 @@ function editline(num){
 			while(i < currentline) line_blocks[0].push(data.lines[i++]);
 			line_blocks[1].push(data.lines[i++]);
 			for(; i < target; i++){
-			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+			    if(indent >= data.lines[i]indent()) break;
 			    line_blocks[1].push(data.lines[i]);
 			}
 			line_blocks[2].push(data.lines[i++]);
 			for(; i < data.lines.length; i++){
-			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+			    if(indent >= data.lines[i]indent()) break;
 			    line_blocks[2].push(data.lines[i]);
 			}
 			while(i < data.lines.length) line_blocks[3].push(data.lines[i++]);
@@ -222,10 +218,10 @@ function editline(num){
 	    case KC.up:
 		if(e.shiftKey){
 		    save_currentline();
-		    indent = data.lines[currentline].match(/^( *)/)[1].length;
+		    indent = data.lines[currentline]indent();
 		    var target;
 		    for(var i = currentline-1; 0 <= i; i--){
-			indent_up = data.lines[i].match(/^( *)/)[1].length;
+			indent_up = data.lines[i]indent();
 			if(indent_up < indent) break;
 			if(indent_up == indent){
 			    target = i;
@@ -238,12 +234,12 @@ function editline(num){
 			while(i < target) line_blocks[0].push(data.lines[i++]);
 			line_blocks[1].push(data.lines[i++]);
 			for(; i < currentline; i++){
-			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+			    if(indent >= data.lines[i]indent()) break;
 			    line_blocks[1].push(data.lines[i]);
 			}
 			line_blocks[2].push(data.lines[i++]);
 			for(; i < data.lines.length; i++){
-			    if(indent >= data.lines[i].match(/^( *)/)[1].length) break;
+			    if(indent >= data.lines[i]indent()) break;
 			    line_blocks[2].push(data.lines[i]);
 			}
 			while(i < data.lines.length) line_blocks[3].push(data.lines[i++]);
@@ -341,14 +337,3 @@ function delete_line(num){
     if(data.lines.length < 1) data.lines.push("(empty)");
 };
 
-
-// これ使ってない
-function swap_lines(a, b){
-    if(a == b || a < 0 || data.lines.length-1 < a ||
-       b < 0 || data.lines.length-1 < b ) return false;
-    tmp = data.lines[a];
-    data.lines[a] = data.lines[b];
-    data.lines[b] = tmp;
-    save_page();
-    return true;
-};
