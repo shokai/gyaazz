@@ -150,7 +150,7 @@ function editline(num){
     $('input#line'+num).focus();
     line.die('click');
     var indent = data.lines[currentline].match(/^( *)/)[1].length;
-    $('input#line'+num).caret({start:indent, end:data.lines[currentline].length});
+    $('input#line'+num).caret({start:indent, end:indent});
     $('input#line'+num).keypress(function(e){
 	    switch(e.keyCode){
 	    case KC.enter:
@@ -265,6 +265,10 @@ function editline(num){
 		    }
 		}
 		break;
+	    }
+	});
+    $('input#line'+num).keyup(function(e){
+	    switch(e.keyCode){
 	    case KC.n:
 		if(e.ctrlKey){
 		    if(currentline < data.lines.length-1){
