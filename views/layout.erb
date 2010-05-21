@@ -1,14 +1,14 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <%= stylesheet_link_tag "/edit.css" %>
-  <%= javascript_script_tag "/jquery.js", "/jquery.caret.min.js", "/util.js", "/edit.js" %>
+  <%= stylesheet_link_tag "/reset-3.1.1.css", "/fonts-3.1.1.css", "/edit.css" %>
+  <% yield_content :head %>
   <title><%= @title %></title>
 </head>
 <body>
 <div class="container">
   <div class="head">
-    <% yield_content :head %>
+    <% yield_content :header %>
   </div>
   <div class="main">
     <%= yield %>
