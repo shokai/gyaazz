@@ -25,7 +25,6 @@ setInterval(function(){
 	}
 }, 1000);
 
-
 function sync_start(){
     if(timer_sync == null){
 	timer_sync = setInterval(function(){
@@ -95,12 +94,12 @@ function display(){
     	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+)(.jpe?g|.gif|.png)\]\]/, '<img src="$1$2">', ']]');
     	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+) (.+)\]\]/, '<a href="$1">$2</a>', ']]');
     	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="$1">$1</a>', ']]');
-    	$('#edit').append('<li class="line" id="line' + i + '">' + line.match(/^ *(.*)/)[1] + '</li>');
-    	$('li#line'+i).css('padding-left', line.indent()*30);
-    	$('li#line'+i).die('click');
+    	$('#edit').append('<li class="line" id="li' + i + '"><span class="line" id="text' +i+ '">' + line.match(/^ *(.*)/)[1] + '</span></li>');
+    	$('li#li'+i).css('padding-left', line.indent()*30);
+    	$('li#li'+i).die('click');
     	$('body').unbind('click');
     	new function(i){
-    	    $('li#line'+i).live('click', function(e){
+    	    $('span#text'+i).live('click', function(e){
     		    save_currentline();
     		    display();
     		    editline(i);
@@ -140,7 +139,7 @@ function highlight_current_block(color){
   if(current_block.length < 2) return;
 
   $.each(current_block, function(){ 
-    var line_elm = $('li#line'+this);
+    var line_elm = $('li#li'+this);
     line_elm.css({'background-color' : color });
     setTimeout(function(){
      line_elm.animate({'background-color' :'rgb(255, 255, 255)'},
@@ -154,7 +153,7 @@ function editline(num){
     if(num < 0 || data.lines.length-1 < num) return false;
     sync_stop();
     currentline = num;
-    line = $('li#line'+num);
+    line = $('li#li'+num);
     line.html('<input type="text" id="line'+num+'" size="140" value="'+data.lines[num]+'">');
 
     $('input#line'+num).focus();
