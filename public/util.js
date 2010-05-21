@@ -1,6 +1,6 @@
 
 Array.prototype.to_s = function(){return this.join('');};
-Array.prototype.flatten = function(){
+Array.prototype.flatten = function(nil){
     result = new Array();
     for(var i = 0; i < this.length; i++){
 	item = this[i];
@@ -15,7 +15,7 @@ String.prototype.replace_all = function(regex, replace_str, delimiter){
     tmp = this.split(delimiter);
     result = '';
     for(var i = 0; i < tmp.length; i++){
-	var line = '';
+	var line;
 	if(i < tmp.length-1) line = tmp[i]+delimiter;
 	else line = tmp[i];
 	result += line.replace(regex, replace_str);
@@ -23,6 +23,6 @@ String.prototype.replace_all = function(regex, replace_str, delimiter){
     return result;
 };
 
-String.prototype.indent = function(){
+String.prototype.indent = function(nil){
     return this.match(/^( *)/)[1].length;
 };

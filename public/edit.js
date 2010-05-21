@@ -96,7 +96,7 @@ function display(){
     	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="$1">$1</a>', ']]');
     	$('#edit').append('<li class="line" id="li' + i + '"><span class="line" id="text' +i+ '">' + line.match(/^ *(.*)/)[1] + '</span></li>');
     	$('li#li'+i).css('padding-left', line.indent()*30);
-    	$('li#li'+i).die('click');
+    	$('span#text'+i).die('click');
     	$('body').unbind('click');
     	new function(i){
     	    $('span#text'+i).live('click', function(e){
@@ -143,8 +143,7 @@ function highlight_current_block(color){
     line_elm.css({'background-color' : color });
     setTimeout(function(){
      line_elm.animate({'background-color' :'rgb(255, 255, 255)'},
-       1000, function(){
-     });
+       1000);
     }, 400);
  });
 }
