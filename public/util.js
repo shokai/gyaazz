@@ -32,3 +32,12 @@ String.prototype.replace_all = function(regex, replace_str, delimiter){
 String.prototype.indent = function(nil){
     return this.match(/^( *)/)[1].length;
 };
+
+String.prototype.repeat = function(num){
+    if(typeof(num)!='number' || num < 0) return this;
+    result = '';
+    for(var i = 0; i < num; i++){
+	result += this;
+    }
+    return result;
+};

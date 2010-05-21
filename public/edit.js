@@ -305,26 +305,14 @@ function get_block_lines(num){
 };
 
 function insert_newline(num, indent){
-    if(num > data.lines.length || num < 0) return false;
-    newlines = new Array();
-    for(var i = 0; i < num; i++){
-	newlines.push(data.lines[i]);
-    }
-    var nl = '';
-    if(indent){
-	for(var j = 0; j < indent; j++){
-	    nl += ' ';
-	}
-    }
-    newlines.push(nl);
-    for(var i = num; i < data.lines.length; i++){
-	newlines.push(data.lines[i]);
-    }
-    data.lines = newlines;
+    if(typeof(num) != 'number' || num > data.lines.length || num < 0) return false;
+    data.lines = [data.lines.slice(0, num),
+		' '.repeat(indent),
+		data.lines.slice(num, data.lines.length)].flatten();
 };
 
 function delete_line(num){
-    if(num > data.lines.length-1 || num < 0) return false;
+    if(typeof(num) != 'number' || num > data.lines.length-1 || num < 0) return false;
     newlines = new Array();
     for(var i = 0; i < data.lines.length; i++){
 	if(i != num) newlines.push(data.lines[i]);
