@@ -313,11 +313,8 @@ function insert_newline(num, indent){
 
 function delete_line(num){
     if(typeof(num) != 'number' || num > data.lines.length-1 || num < 0) return false;
-    newlines = new Array();
-    for(var i = 0; i < data.lines.length; i++){
-	if(i != num) newlines.push(data.lines[i]);
-    }
-    data.lines = newlines;
+    data.lines = [data.lines.slice(0, num), 
+		  data.lines.slice(num+1, data.lines.length)].flatten();
     if(data.lines.length < 1) data.lines.push("(empty)");
 };
 
