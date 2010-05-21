@@ -171,6 +171,7 @@ function editline(num){
 	});
 
     $('input#line'+num).keydown(function(e){
+	    if([KC.up, KC.down].contains(e.keyCode)) e.preventDefault();
 	    switch(e.keyCode){
 	    case KC.down:
 		if(e.shiftKey){

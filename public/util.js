@@ -9,6 +9,12 @@ Array.prototype.flatten = function(nil){
     }
     return result;
 };
+Array.prototype.contains = function(obj){
+    for(var i = 0; i < this.length; i++){
+	if(this[i] == obj) return true;
+    }
+    return false;
+};
 
 String.prototype.replace_all = function(regex, replace_str, delimiter){
     if(!this.match(regex)) return this;
