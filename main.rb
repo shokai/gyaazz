@@ -12,6 +12,7 @@ end
 
 require 'sinatra'
 require 'sinatra/reloader' if development?
+require 'sinatra/auto-reload' if development?
 require 'sinatra/static_assets'
 require 'sinatra/content_for'
 require 'rack'
@@ -20,6 +21,10 @@ require 'json'
 require 'uri'
 require 'tokyocabinet'
 include TokyoCabinet
+
+def auto_reload_ignores
+  [/db.*/, /config.yaml/]
+end
 
 @@dbdir = 'db'
 
@@ -65,8 +70,9 @@ post '*.json' do
   begin
     db_open(params[:splat])
     lines = params[:lines].delete_if{|i| i.size < 1 or i=~/^\s+$/}
-    if last_key = @pages.keys.last and JSON.parse(@pages[last_key])['lines'] == lines
-      @mes = {'success' => true, 'message' => 'saved'}.to_json
+    last_key = @pages.keys.last
+    if last_key and JSON.parse(@pages[last_key])['lines'] == lines
+      @mes = {'success' => true, 'message' => 'save'}.to_json
     else
       now = Time.now
       key = "#{now.to_i}_#{now.usec}"
