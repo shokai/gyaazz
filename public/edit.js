@@ -176,7 +176,7 @@ function editline(num){
 	    if([KC.up, KC.down].contains(e.keyCode)) e.preventDefault();
 	    switch(e.keyCode){
 	    case KC.down:
-		if(e.shiftKey){ // swap currentline with downside
+		if(e.ctrlKey){ // swap currentline with downside
 		    save_currentline();
 		    indent = data.lines[currentline].indent();
 		    var target;
@@ -201,6 +201,16 @@ function editline(num){
 			highlight_current_block();
 		    }
 		}
+		else if(e.shiftKey){
+		    if(currentline != null && currentline < data.lines.length-1){
+			save_currentline();
+			var tmp = data.lines[currentline];
+			data.lines[currentline] = data.lines[currentline+1];
+			data.lines[currentline+1] = tmp;
+			display();
+			editline(currentline+1);
+		    }
+		}
 		else if(currentline < data.lines.length-1){
 		    save_currentline();
 		    display();
@@ -208,7 +218,7 @@ function editline(num){
 		}
 		break;
 	    case KC.up:
-		if(e.shiftKey){ // swap currentline with upside
+		if(e.ctrlKey){ // swap currentline with upside
 		    save_currentline();
 		    indent = data.lines[currentline].indent();
 		    var target;
@@ -231,6 +241,16 @@ function editline(num){
 			display();
 			editline(line_blocks[0].length);
 			highlight_current_block();
+		    }
+		}
+		else if(e.shiftKey){
+		    if(currentline != null && currentline > 0){
+			save_currentline();
+			var tmp = data.lines[currentline];
+			data.lines[currentline] = data.lines[currentline-1];
+			data.lines[currentline-1] = tmp;
+			display();
+			editline(currentline-1);
 		    }
 		}
 		else if(currentline > 0){
