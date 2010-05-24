@@ -176,7 +176,7 @@ function editline(num){
 	    if([KC.up, KC.down].contains(e.keyCode)) e.preventDefault();
 	    switch(e.keyCode){
 	    case KC.down:
-		if(e.shiftKey){
+		if(e.shiftKey){ // swap currentline with downside
 		    save_currentline();
 		    indent = data.lines[currentline].indent();
 		    var target;
@@ -208,7 +208,7 @@ function editline(num){
 		}
 		break;
 	    case KC.up:
-		if(e.shiftKey){
+		if(e.shiftKey){ // swap currentline with upside
 		    save_currentline();
 		    indent = data.lines[currentline].indent();
 		    var target;
@@ -240,21 +240,46 @@ function editline(num){
 		}		
 		    break;
 	    case KC.right:
-		if(e.shiftKey){
+		if(e.shiftKey){ // indent right
 		    $('input#line'+num).val(' '+$('input#line'+num).val());
 		    save_currentline();
 		    display();
 		    editline(num);
 		}
+		else if(e.ctrlKey){
+		    indexes = get_block_indexes(num);
+		    save_currentline();
+		    for(var i = 0; i < indexes.length; i++){
+			var index = indexes[i];
+			data.lines[index] = data.lines[index].replace(/^(.*)$/, " $1");
+		    }
+		    display();
+		    editline(num);
+		    highlight_current_block();
+		}
 		break;
 	    case KC.left:
-		if(e.shiftKey){
-		    val = $('input#line'+num).val();
-		    if(val.match(/^ +/)){
+		if(e.shiftKey){ // indent left
+		    var val = $('input#line'+num).val();
+		    if(val.indent() > 0){
 			$('input#line'+num).val(val.replace(/^ (.*)$/, "$1"));
 			save_currentline();
 			display();
 			editline(num);
+		    }
+		}
+		else if(e.ctrlKey){ // block indent
+		    var val = $('input#line'+num).val();
+		    if(val.indent() > 0){
+			indexes = get_block_indexes(num);
+			save_currentline();
+			for(var i = 0; i < indexes.length; i++){
+			    var index = indexes[i];
+			    data.lines[index] = data.lines[index].replace(/^ (.*)$/, "$1");
+			}
+			display();
+			editline(num);
+			highlight_current_block();
 		    }
 		}
 		break;
