@@ -4,11 +4,20 @@ var timer_save, timer_sync;
 
 var KC = {tab:9, enter:13, left:37, up:38, right:39, down:40, n:78, p:80};
 var last_edit_at = new Date();
+var last_input_clicked_at = null;
 
 $(function(){
   load_page();
-  sync_start();    
-});
+  sync_start();
+  $('body').click(function(e){
+	  if(currentline == null) return;
+	  if(last_input_clicked_at && new Date()-last_input_clicked_at < 100) return;
+	  save_currentline();
+	  currentline = null;
+	  sync_start();
+	  display();
+      });
+    });
 
 document.onkeydown = function(e){
     last_edit_at = new Date();
@@ -97,7 +106,6 @@ function display(){
     	$('#edit').append('<li class="line" id="li' + i + '"><span class="line" id="text' +i+ '">' + line.match(/^ *(.*)/)[1] + '</span></li>');
     	$('li#li'+i).css('padding-left', line.indent()*30);
     	$('span#text'+i).die('dblclick');
-    	$('body').unbind('click');
     	new function(i){
     	    $('span#text'+i).live('dblclick', function(e){
     		    save_currentline();
@@ -145,9 +153,12 @@ function editline(num){
     currentline = num;
     line = $('li#li'+num);
     line.html('<input type="text" id="line'+num+'" size="140" value="'+data.lines[num]+'">');
-
+    
     $('input#line'+num).focus();
     line.die('click');
+    $('input#line'+num).click(function(e){
+	    last_input_clicked_at = new Date();
+	});
     var indent = data.lines[currentline].indent();
     $('input#line'+num).caret({start:indent, end:indent});
     $('input#line'+num).keypress(function(e){
@@ -270,13 +281,6 @@ function editline(num){
 		}
 		break;
 	    }
-	});
-    $('body').click(function(e){
-	    if(currentline == null) return;
-	    save_currentline();
-	    currentline = null;
-	    sync_start();
-	    display();
 	});
 };
 
