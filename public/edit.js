@@ -35,7 +35,8 @@ setInterval(function(){
 }, 1000);
 
 function api_uri(current_url){
-    return current_url.replace(/(https?:\/\/[^\/]+)\/(.*)/,"$1/api/$2.json");
+    var esc_request = app_request.replace_all(/\//, "\/", "/");
+    return current_url.replace(new RegExp("(.+)\/("+esc_request+")"), "$1/api/$2.json");
 }
 
 function sync_start(){
