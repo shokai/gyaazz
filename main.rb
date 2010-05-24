@@ -67,7 +67,7 @@ get '/api/*.json' do
 end
 
 get '/api/*' do
-  redirect env['REQUEST_PATH'].gsub(/\/api\//, "/API/")
+  redirect env['REQUEST_URI'].gsub(/\/api\//, "/API/")
 end
 
 get '/*/' do
