@@ -96,10 +96,10 @@ function display(){
     	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="$1">$1</a>', ']]');
     	$('#edit').append('<li class="line" id="li' + i + '"><span class="line" id="text' +i+ '">' + line.match(/^ *(.*)/)[1] + '</span></li>');
     	$('li#li'+i).css('padding-left', line.indent()*30);
-    	$('span#text'+i).die('click');
+    	$('span#text'+i).die('dblclick');
     	$('body').unbind('click');
     	new function(i){
-    	    $('span#text'+i).live('click', function(e){
+    	    $('span#text'+i).live('dblclick', function(e){
     		    save_currentline();
     		    display();
     		    editline(i);
