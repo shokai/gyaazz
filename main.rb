@@ -47,11 +47,11 @@ get '/' do
   erb :index
 end
 
-get '*/' do
-  erb :search
+get '/api/*/.json' do
+  {'search' => 'constructing'}.to_json
 end
 
-get '*.json' do
+get '/api/*.json' do
   db_open(params[:splat])
   if @pages.keys.size < 1
     @mes = {'lines' => ["(empty)"]}.to_json
@@ -66,7 +66,21 @@ get '*.json' do
   end
 end
 
-post '*.json' do
+get '/api/*' do
+  redirect "/API/#{params[:splat].first}"
+end
+
+get '/*/' do
+  erb :search
+end
+
+get '/*' do
+  p params[:splat]
+  @title = params[:splat].to_s
+  erb :edit
+end
+
+post '/api/*.json' do
   begin
     db_open(params[:splat])
     lines = params[:lines].delete_if{|i| i.size < 1 or i=~/^\s+$/}
@@ -88,9 +102,3 @@ post '*.json' do
     @mes = {'error' => true, 'message' => 'save error!'}.to_json
   end
 end
-
-get '*' do
-  @title = params[:splat].to_s
-  erb :edit
-end
-

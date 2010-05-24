@@ -34,6 +34,10 @@ setInterval(function(){
 	}
 }, 1000);
 
+function api_uri(current_url){
+    return current_url.replace(/(https?:\/\/[^\/]+)\/(.*)/,"$1/api/$2.json");
+}
+
 function sync_start(){
     if(timer_sync == null){
 	timer_sync = setInterval(function(){
@@ -51,8 +55,7 @@ function sync_stop(){
 };
 
 function load_page(on_load){
-    var url = location.href+".json";
-    $.getJSON(url, function(res){
+    $.getJSON(api_uri(location.href), function(res){
 	    changed = false;
 	    if(data == null || data.lines.length != res.lines.length) changed = true;
 	    if(!changed){
@@ -85,8 +88,7 @@ function save_page(){
 		val = $('input#line'+currentline).val();
 		if(val != null) data.lines[currentline] = val;
 	    }
-	    var url = location.href+'.json';
-	    $.post(url, data, function(res){
+	    $.post(api_uri(location.href), data, function(res){
 		    if(res.error) message(res.message);
 		    else if(res.success){
 			message(res.message);
