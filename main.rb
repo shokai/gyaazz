@@ -67,7 +67,7 @@ get '/api/*.json' do
 end
 
 get '/api/*' do
-  redirect "/API/#{params[:splat].first}"
+  redirect env['REQUEST_PATH'].gsub(/\/api\//, "/API/")
 end
 
 get '/*/' do
