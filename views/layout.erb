@@ -7,7 +7,8 @@
 		 request_uri : '<%=env['REQUEST_URI']%>',
 		 path_info : '<%=env['PATH_INFO']%>',
 		 script_name : '<%=env['SCRIPT_NAME']%>'};
-     env.api_uri = env.url_scheme+'://'+env.host+env.script_name+'/api'+env.path_info+'.json';
+     env.app_root = env.url_scheme+'://'+env.host+env.script_name+'/';
+     env.api_uri = env.app_root+'api'+env.path_info+'.json';
   </script> 
   <%= stylesheet_link_tag "/reset-3.1.1.css", "/fonts-3.1.1.css", "/edit.css" %>
   <% yield_content :head %>

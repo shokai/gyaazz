@@ -101,7 +101,7 @@ function display(){
     	line = line.replace_all(/\[\[\[(.+)\]\]\]/, '<b>$1</b>', ']]]');
     	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+)(.jpe?g|.gif|.png)\]\]/, '<img src="$1$2">', ']]');
     	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+) (.+)\]\]/, '<a href="$1">$2</a>', ']]');
-    	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="$1">$1</a>', ']]');
+    	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="'+env.app_root+'$1">$1</a>', ']]');
     	$('#edit').append('<li class="line" id="li' + i + '"><span class="line" id="text' +i+ '">' + line.match(/^ *(.*)/)[1] + '</span></li>');
     	$('li#li'+i).css('padding-left', line.indent()*30);
     	$('span#text'+i).die('dblclick');
