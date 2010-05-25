@@ -1,2 +1,11 @@
-<h1>gyaazz<%= params[:splat].to_s %> を含むページ</h1>
+<% content_for :header do %>
+ <h1>gyaazz/<%= params[:splat].to_s %></h1>
+<% end %>
+
+<ul>
+<% @sub_pages.each{|name| %>
+<li><a href="<%=name%>"><%=name%></a></li>
+<% } %>
+</ul>
+
 

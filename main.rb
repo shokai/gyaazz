@@ -35,6 +35,14 @@ def db_open(dbname='/')
   @pages.open("#{@@dbdir}/_#{dbname}.tch", HDB::OWRITER|HDB::OCREAT)  
 end
 
+def sub_pages(current_page='/')
+  pattern = "#{@@dbdir}/"+"#{current_page.to_s}".gsub(/\//, '_')+"*.tch"
+  Dir.glob(pattern).map{|i|
+    esc = "#{current_page.to_s}".gsub(/\//, '_')
+    i.scan(/#{@@dbdir}\/#{esc}(.+)\.tch/).first.to_s.gsub(/_/,'/')
+  }.delete_if{|i| i.size < 1 }
+end
+
 before do
   @title = "gyaazz"
 end
@@ -44,7 +52,8 @@ after do
 end
 
 get '/' do
-  erb :index
+  @sub_pages = sub_pages
+  erb :search
 end
 
 get '/api/*/.json' do
@@ -71,6 +80,8 @@ get '/api/*' do
 end
 
 get '/*/' do
+  @sub_pages = sub_pages(URI.decode env['PATH_INFO'])
+  @title = params[:splat].to_s
   erb :search
 end
 
