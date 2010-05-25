@@ -66,6 +66,11 @@ a:hover {
     height :22px;
 }
 
+span.line{
+    padding-left : 1em;
+    margin-left : -1em;
+}
+
 ul {
     list-style: none;
     margin-left: 0em;
