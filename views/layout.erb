@@ -1,6 +1,14 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script type="text/javascript">
+     var env = { url_scheme : '<%=env['rack.url_scheme']%>',
+		 host : '<%=env['HTTP_HOST']%>',
+		 request_uri : '<%=env['REQUEST_URI']%>',
+		 path_info : '<%=env['PATH_INFO']%>',
+		 script_name : '<%=env['SCRIPT_NAME']%>'};
+     env.api_uri = env.url_scheme+'://'+env.host+env.script_name+'/api'+env.path_info+'.json';
+  </script> 
   <%= stylesheet_link_tag "/reset-3.1.1.css", "/fonts-3.1.1.css", "/edit.css" %>
   <% yield_content :head %>
   <title><%= @title %></title>

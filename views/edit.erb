@@ -1,8 +1,5 @@
 <% content_for :head do %>
 <%= javascript_script_tag "/jquery.js", "/jquery.caret.min.js", "/jquery.color.js", "/util.js", "/edit.js" %>
-<script type="text/javascript">
-  var app_request = "<%=URI.encode params[:splat].first%>";
-</script> 
 
 <% end %>
 
