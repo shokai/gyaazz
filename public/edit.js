@@ -95,21 +95,21 @@ function save_page(){
 };
 
 function markup(line){
-    	line = line.replace_all(/\[\[\[(.+)\]\]\]/, '<b>$1</b>', ']]]');
-    	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+)(.jpe?g|.gif|.png)\]\]/, '<img src="$1$2">', ']]');
-    	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+) (.+)\]\]/, '<a href="$1">$2</a>', ']]');
-    	line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+)\]\]/, '<a href="$1">$1</a>', ']]');
-    	line = line.replace_all(/\[\[(.+)\]\]/, '<a href="'+env.app_root+'$1">$1</a>', ']]');
-	return line;
+    line = line.htmlEscape();
+    line = line.replace_all(/\[\[\[(.+)\]\]\]/, '<b>$1</b>', ']]]');
+    line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+)(.jpe?g|.gif|.png)\]\]/, '<img src="$1$2">', ']]');
+    line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+) (.+)\]\]/, '<a href="$1">$2</a>', ']]');
+    line = line.replace_all(/\[\[(https?\:[\w\.\~\-\/\?\&\+\=\:\@\%\;\#\%]+)\]\]/, '<a href="$1">$1</a>', ']]');
+    line = line.replace_all(/\[\[(.+)\]\]/, '<a href="'+env.app_root+'$1">$1</a>', ']]');
+    return line;
 };
 
 function display(){
     $('#edit').html('');
     for(var i = 0; i < data.lines.length; i++){
-    	var line = data.lines[i];
-	line = markup(line);
+	var line = markup(data.lines[i]);
     	$('#edit').append('<li class="line" id="li' + i + '"><span class="line" id="text' +i+ '">' + line.match(/^ *(.*)/)[1] + '</span></li>');
-    	$('li#li'+i).css('padding-left', line.indent()*30);
+	$('li#li'+i).css('padding-left', data.lines[i].indent()*30);
     	$('span#text'+i).die('dblclick');
     	new function(i){
     	    $('span#text'+i).live('dblclick', function(e){
@@ -157,8 +157,8 @@ function editline(num){
     sync_stop();
     currentline = num;
     line = $('li#li'+num);
-    line.html('<input type="text" id="line'+num+'" size="140" value="'+data.lines[num]+'">');
-    
+    line.html('<input type="text" id="line'+num+'" size="140">');
+    $('#line'+num).val(data.lines[num]);
     $('input#line'+num).focus();
     line.die('click');
     $('input#line'+num).click(function(e){
