@@ -32,14 +32,15 @@ def db_open(dbname='/')
   dbname = dbname.to_s.gsub(/\//, '_')
   @pages = HDB.new
   Dir.mkdir(@@dbdir) if !File.exists?(@@dbdir)
-  @pages.open("#{@@dbdir}/_#{dbname}.tch", HDB::OWRITER|HDB::OCREAT)  
+  Dir.mkdir("#{@@dbdir}/pages") if !File.exists?("#{@@dbdir}/pages")
+  @pages.open("#{@@dbdir}/pages/_#{dbname}.tch", HDB::OWRITER|HDB::OCREAT)  
 end
 
 def sub_pages(current_page='/')
-  pattern = "#{@@dbdir}/"+"#{current_page.to_s}".gsub(/\//, '_')+"*.tch"
+  pattern = "#{@@dbdir}/pages/"+"#{current_page.to_s}".gsub(/\//, '_')+"*.tch"
   Dir.glob(pattern).map{|i|
     esc = "#{current_page.to_s}".gsub(/\//, '_')
-    i.scan(/#{@@dbdir}\/#{esc}(.+)\.tch/).first.to_s.gsub(/_/,'/')
+    i.scan(/#{@@dbdir}\/pages\/#{esc}(.+)\.tch/).first.to_s.gsub(/_/,'/')
   }.delete_if{|i| i.size < 1 }
 end
 
