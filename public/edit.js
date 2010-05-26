@@ -63,7 +63,7 @@ function load_page(on_load){
 		    }
 		}
 	    }
-	    if(changed){
+	    if(currentline == null && changed){
 		data = res;
 		display();
 		if(typeof(on_load)=='function') on_load();
