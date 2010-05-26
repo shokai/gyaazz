@@ -85,11 +85,10 @@ function save_page(){
 		val = $('input#line'+currentline).val();
 		if(val != null) data.lines[currentline] = val;
 	    }
-	    $.post(env.api_uri, data, function(res){
+	    var tmp = data;
+	    $.post(env.api_uri, tmp, function(res){
 		    if(res.error) message(res.message);
-		    else if(res.success){
-			message(res.message);
-		    }
+		    else if(res.success && tmp == data) message(res.message);
 		},'json');
 	}, 3000);
 };
