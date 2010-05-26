@@ -56,10 +56,15 @@ function load_page(on_load){
 	    changed = false;
 	    if(data == null || data.lines.length != res.lines.length) changed = true;
 	    if(!changed){
-		for(var i = 0; i < data.lines.length; i++){
-		    if(data.lines[i] != res.lines[i]){
-			changed = true;
-			break;
+		if(data.lines.length != res.lines.length){
+		    changed = true;
+		}
+		else{
+		    for(var i = 0; i < data.lines.length; i++){
+			if(data.lines[i] != res.lines[i]){
+			    changed = true;
+			    break;
+			}
 		    }
 		}
 	    }
