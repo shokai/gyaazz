@@ -29,8 +29,10 @@ Run Gyaazz
 
     % bundle exec ./main.rb
 
-Author
-------
+Authors
+-------
 
-shokai
+* shokai
+* hryk
+
 
