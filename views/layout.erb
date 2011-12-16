@@ -9,7 +9,7 @@
 		 script_name : '<%=env['SCRIPT_NAME']%>'};
      env.app_root = env.url_scheme+'://'+env.host+env.script_name+'/';
      env.api_uri = env.app_root+'api'+env.path_info+'.json';
-  </script> 
+  </script>
   <%= stylesheet_link_tag "/reset-3.1.1.css", "/fonts-3.1.1.css", "/edit.css" %>
   <% yield_content :head %>
   <title><%= @title %></title>
