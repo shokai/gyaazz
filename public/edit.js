@@ -146,7 +146,7 @@ function highlight_current_block(color){
   if(color == null) color = '#fecccc';
   current_block = get_block_indexes(currentline);
   if(current_block.length < 2) return;
-  $.each(current_block, function(){ 
+  $.each(current_block, function(){
     var line_elm = $('li#li'+this);
     line_elm.css({'background-color' : color });
     setTimeout(function(){
@@ -198,7 +198,7 @@ function editline(num){
 			}
 		    }
 		    if(target != null){
-			line_blocks = [data.lines.slice(0,currentline), 
+			line_blocks = [data.lines.slice(0,currentline),
 				       get_block_lines(currentline),
 				       get_block_lines(target),
 				       []];
@@ -266,7 +266,7 @@ function editline(num){
 		    save_currentline();
 		    display();
 		    editline(currentline-1);
-		}		
+		}
 		    break;
 	    case KC.right:
 		if(e.shiftKey){ // indent right
@@ -371,7 +371,7 @@ function insert_newline(num, indent){
 
 function delete_line(num){
     if(typeof(num) != 'number' || num > data.lines.length-1 || num < 0) return false;
-    data.lines = [data.lines.slice(0, num), 
+    data.lines = [data.lines.slice(0, num),
 		  data.lines.slice(num+1, data.lines.length)].flatten();
     if(data.lines.length < 1) data.lines.push("(empty)");
 };
